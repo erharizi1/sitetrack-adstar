@@ -1,6 +1,8 @@
 @AGENTS.md
 @docs/CONTEXT.md
 
+The build order lives in `docs/BUILD-PLAN.md` — read it when starting or picking a feature.
+Read `docs/ARCHITECTURE.md` when working on infrastructure, deployment, or the data model.
 
 ## How we develop with an LLM
 
