@@ -14,6 +14,13 @@ The method is as much the point as the product. Core loop:
 - **Steer, don't type.** Describe the feature to Claude Code — often out loud — from the UI or
   intent ("set up the site engineer screen"). It proposes the code; Eri reviews every change
   before it lands. We move by directing the LLM, not writing every line.
+- **UI pass, then wiring pass — review by running, not reading.** Once a screen's design is
+  settled, build it in two steps: first the UI with hardcoded fake data (so the look and flow
+  can be checked immediately, before any backend exists), then a wiring pass that connects it to
+  Supabase via a Next.js server action. Hand each pass back as "here's what to click, here's what
+  should happen" — Eri isn't fluent in Next.js and reviews by running the app and testing it
+  through the UI, not by reading the diff line by line. Explaining code in plain terms is still
+  welcome when something's worth knowing; it's just never the approval gate.
 - **Test on `develop`, promote to `main`.** A finished feature is tested live on `develop` — on
   the phone (engineer view) and the desktop (PM view) at once. When a version is solid, it's
   pushed to `main` → production, which is what people on the actual site see.
