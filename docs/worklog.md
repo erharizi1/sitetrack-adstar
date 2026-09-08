@@ -50,3 +50,68 @@ unblocked. Two commits, kept separate on request: the skills install, and the ac
 - Vercel connection, branch protection, and CI (`.github/workflows/ci.yml`) are still the
   "add when ready" half of Phase 0 — not done yet.
 - Next up per `BUILD-PLAN.md`: `feature/app-shell`.
+
+---
+
+## 2026-09-08 — Phase 0 wrap-up, engineer screen design, Phase 1 replanned
+
+**Branches:** `setup/context-files` (merged), `fix/docs-casing` (merged), `docs/review-workflow`
+(merged), `docs/phase1-engineer-log` (merged) — no `feature/*` branches yet, still pre-code.
+
+**Phase 0, finished:**
+- Added `.github/workflows/ci.yml` (install → generate → build on PRs/pushes to `develop`/`main`).
+  First push was rejected — the git token lacked the `workflow` scope GitHub requires for pushing
+  workflow files; Eri added the scope and it went through.
+- Eri connected Vercel and turned on branch protection for `main`/`develop` via the GitHub
+  dashboard.
+- Found `docs/*.MD` were tracked with uppercase extensions — harmless on macOS, would've silently
+  broken on Linux (CI, Vercel) since `CLAUDE.md` references them lowercase. Renamed, merged as
+  `fix/docs-casing`.
+- Merged `setup/context-files` into `develop` — CI ran for the first time (green) on both the PR
+  and the merge push. Phase 0 is now fully done and proven end-to-end.
+
+**Design — UI showcase (not yet in git, see below):**
+- Explored the engineer/PM/owner screens as a multi-artboard canvas (Claude Design), published at
+  https://claude.ai/code/artifact/debbee81-ad2e-4e1f-9ba7-9a579d0fdc45 — working source lives in
+  `docs/design/showcase/`.
+- Eri brought a second, independently-made mockup (`docs/design/siterack-ui-suggestion/`) — a
+  pitch-deck-style document (pricing tiers, onboarding, tech pitch) rather than a UI spec; useful
+  for its blue color direction and its finer engineer-flow screen breakdown, but its
+  multi-tenant/SaaS framing doesn't match the one-pilot scope in `CONTEXT.md`.
+- Talked through the actual engineer workflow: single project (no picker screen needed), no real
+  login for the pilot, logging *usage* (not incoming deliveries) is the in-scope problem.
+  Repositioned the "material log" screens as one combined "today's log" screen instead — first
+  built materials-only, then corrected after Eri flagged it didn't show how the day comes together.
+- Separately, picked the color direction: Eri's blue (`#2563EB`) over the original warm-amber
+  draft — applied to the engineer screens.
+- Sketched 3 structural directions for the combined screen (stacked sections / tabs with a shared
+  totals bar / one chronological list). Eri picked **Idea B — tabs + shared totals bar**
+  (`DayIdeaB.dc.html`); the other two sketches were removed from the canvas and repo once decided.
+- Established a working rhythm this session: discuss in words first, only build when explicitly
+  asked, verify each canvas update with a background re-check pass (arithmetic, layout rules,
+  Albanian phrasing) before handing it back.
+
+**Process convention added to `CLAUDE.md`:** UI pass (hardcoded data, reviewed by running the app)
+then a separate wiring pass (connects to Supabase) — Eri reviews by using the running app, not by
+reading diffs.
+
+**`BUILD-PLAN.md` Phase 1 reworked** to match what got settled above:
+- `feature/projects-list` dropped (no picker needed for one project).
+- New `feature/engineer-daily-log-ui` replaces the old material/labor UI branches — builds the
+  combined tabs+totals screen from `DayIdeaB.dc.html`, hardcoded, no DB.
+- Persistence split into `feature/seed-and-persist` (materials) and new `feature/labor-persist`
+  (labor) — small wiring-only branches per the new convention.
+- Fixed stale `src/lib`/`src/actions` path references (repo has no `src/`).
+
+**Result:** Phase 0 fully done and merged. Direction for the engineer's first real screen is
+settled (phone). Plan is written up and ready to execute — nothing implemented in `app/` yet.
+
+**Open items / worth knowing:**
+- `docs/design/` (the whole showcase folder, both mockups) is **not committed** — still local
+  working files. Decide whether/when it's worth putting in git.
+- The combined daily-log screen's **web/desktop layout isn't designed yet** — only the
+  materials-only version was (`MaterialLogWeb.dc.html`).
+- Pushing straight to `develop` (used to merge these doc branches) wasn't blocked by branch
+  protection — worth checking the GitHub settings if PRs should be strictly required, even for
+  the repo owner.
+- Next up: `feature/app-shell`, then `feature/engineer-daily-log-ui`.
