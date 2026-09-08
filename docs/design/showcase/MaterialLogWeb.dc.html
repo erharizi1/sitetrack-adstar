@@ -1,0 +1,114 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --border: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  </style>
+</helmet>
+
+<div style="width:1280px; min-height:800px; background:var(--bg); display:flex; flex-direction:column;">
+
+  <div style="display:flex; align-items:center; gap:14px; padding:26px 48px; border-bottom:1px solid var(--border); background:var(--surface);">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <div style="display:flex; flex-direction:column;">
+      <div style="font-size:16px; font-weight:600;">Kompleksi Astir</div>
+      <div style="font-size:13px; color:var(--ink-muted);">Materiale &middot; Sot, 7 Shtator 2026</div>
+    </div>
+  </div>
+
+  <div style="flex:1; display:flex; gap:0;">
+
+    <div style="width:52%; padding:36px 48px; display:flex; flex-direction:column; gap:20px;">
+
+      <div style="font-size:13px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-muted);">Materialet e sotme</div>
+
+      <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; overflow:hidden;">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid var(--border);">
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <div style="font-size:15px; font-weight:600;">Çimento</div>
+            <div style="font-size:13px; color:var(--ink-muted);">40 thes &times; 950 L</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div class="num" style="font-size:15px; font-weight:600;">38.000 L</div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px;">
+          <div style="display:flex; flex-direction:column; gap:3px;">
+            <div style="font-size:15px; font-weight:600;">Hekur betoni Ø12</div>
+            <div style="font-size:13px; color:var(--ink-muted);">800 kg &times; 130 L</div>
+          </div>
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div class="num" style="font-size:15px; font-weight:600;">104.000 L</div>
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:var(--ink); border-radius:14px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between;">
+        <div style="color:#D8D2C6; font-size:13.5px; font-weight:600;">Kosto e materialeve</div>
+        <div class="num" style="color:#FFFFFF; font-size:24px; font-weight:700;">142.000 L</div>
+      </div>
+
+    </div>
+
+    <div style="width:48%; background:var(--surface); border-left:1px solid var(--border); padding:36px 48px; display:flex; flex-direction:column; gap:20px;">
+
+      <div style="font-size:13px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-muted);">Shto material</div>
+
+      <div style="display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--border); border-radius:11px; padding:12px 16px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <div style="font-size:14px; color:var(--ink-muted);">Kërko material&hellip;</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px;">
+        <div style="padding:14px; border-radius:11px; background:var(--accent); color:var(--accent-ink); display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:14px; font-weight:600;">Rërë lumi</div>
+          <div style="font-size:11.5px; opacity:0.85;">1.400 L / m&sup3;</div>
+        </div>
+        <div style="padding:14px; border-radius:11px; border:1px solid var(--border); display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:14px; font-weight:600;">Zhavorr</div>
+          <div style="font-size:11.5px; color:var(--ink-muted);">1.100 L / m&sup3;</div>
+        </div>
+        <div style="padding:14px; border-radius:11px; border:1px solid var(--border); display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:14px; font-weight:600;">Tullë blloku</div>
+          <div style="font-size:11.5px; color:var(--ink-muted);">45 L / copë</div>
+        </div>
+        <div style="padding:14px; border-radius:11px; border:1px solid var(--border); display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:14px; font-weight:600;">Çimento</div>
+          <div style="font-size:11.5px; color:var(--ink-muted);">950 L / thes</div>
+        </div>
+      </div>
+
+      <div style="border-top:1px solid var(--border); padding-top:20px; display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12.5px; font-weight:600; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.03em;">Sasia &mdash; Rërë lumi</div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <button style="width:40px; height:40px; border-radius:10px; border:1px solid var(--border); background:var(--bg); font-size:18px; color:var(--ink); cursor:pointer;">&minus;</button>
+          <div style="flex:1; text-align:center; font-size:18px; font-weight:600;" class="num">12 <span style="font-size:12.5px; font-weight:500; color:var(--ink-muted);">m&sup3;</span></div>
+          <button style="width:40px; height:40px; border-radius:10px; border:1px solid var(--border); background:var(--bg); font-size:18px; color:var(--ink); cursor:pointer;">+</button>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg); border-radius:11px; padding:12px 16px;">
+          <div style="font-size:12.5px; color:var(--ink-muted); font-weight:600;">Kosto e rreshtit</div>
+          <div class="num" style="font-size:16px; font-weight:700;">16.800 L</div>
+        </div>
+        <button style="background:var(--accent); color:var(--accent-ink); border:none; border-radius:11px; padding:13px; font-size:14px; font-weight:600; cursor:pointer;">Shto në ditar</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

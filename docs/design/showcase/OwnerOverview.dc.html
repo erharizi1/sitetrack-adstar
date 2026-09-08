@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+    :root {
+      --bg: #F6F2EA; --surface: #FFFFFF; --ink: #211C16; --ink-muted: #776C5C;
+      --border: #E6DFD1; --accent: #D9700A; --accent-ink: #FFFFFF;
+      --steel: #33566B; --steel-soft: #E3EBEF; --good: #2E7D4F; --good-soft: #E3F0E7;
+      --danger: #B23A2E; --danger-soft: #F6E4E1; --amber-soft: #FBEBD8;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    h1, h2, h3, .num, .brand, button { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+    .badge { display:inline-flex; align-items:center; gap:5px; padding:5px 11px; border-radius:99px; font-size:12px; font-weight:600; }
+  </style>
+</helmet>
+
+<div style="width:1440px; min-height:900px; background:var(--bg); display:flex; flex-direction:column;">
+
+  <div style="display:flex; align-items:center; justify-content:space-between; padding:22px 40px; border-bottom:1px solid var(--border); background:var(--surface);">
+    <div class="brand" style="font-size:15px; font-weight:700; letter-spacing:0.06em; color:var(--accent); text-transform:uppercase;">SiteTrack</div>
+    <div style="display:flex; align-items:center; gap:14px;">
+      <div style="display:flex; flex-direction:column; align-items:flex-end;">
+        <div style="font-size:13.5px; font-weight:600;">Besnik Hoxha</div>
+        <div style="font-size:11.5px; color:var(--ink-muted);">Pronar</div>
+      </div>
+      <div style="width:36px; height:36px; border-radius:99px; background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;">BH</div>
+    </div>
+  </div>
+
+  <div style="padding:32px 40px 48px; display:flex; gap:28px;">
+
+    <div style="flex:1; display:flex; flex-direction:column; gap:24px;">
+
+      <div style="display:flex; flex-direction:column; gap:4px;">
+        <h1 style="font-size:24px; font-weight:600; margin:0;">Pasqyra e projekteve</h1>
+        <div style="font-size:13.5px; color:var(--ink-muted);">2 projekte aktive</div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px;">
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12.5px; color:var(--ink-muted); font-weight:600;">Investim total</div>
+          <div class="num" style="font-size:22px; font-weight:700;">60.500.000 L</div>
+        </div>
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12.5px; color:var(--ink-muted); font-weight:600;">Shpenzuar gjithsej</div>
+          <div class="num" style="font-size:22px; font-weight:700;">29.370.000 L</div>
+        </div>
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:20px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:12.5px; color:var(--ink-muted); font-weight:600;">Mbetur</div>
+          <div class="num" style="font-size:22px; font-weight:700;">31.130.000 L</div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px 24px; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <div style="font-size:16px; font-weight:600;">Kompleksi Astir</div>
+              <div style="font-size:13px; color:var(--ink-muted);">Tiranë, Astir</div>
+            </div>
+            <span class="badge" style="background:var(--amber-soft); color:#8A5A12;">Kujdes</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <div style="height:10px; background:var(--border); border-radius:99px; overflow:hidden;">
+              <div style="height:100%; width:62%; background:var(--accent); border-radius:99px;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-muted);">
+              <span>26.040.000 L nga 42.000.000 L</span>
+              <span style="font-weight:600; color:var(--ink);">62%</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="background:var(--surface); border:1px solid var(--border); border-radius:14px; padding:22px 24px; display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:flex-start; justify-content:space-between;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <div style="font-size:16px; font-weight:600;">Rezidenca Liqeni</div>
+              <div style="font-size:13px; color:var(--ink-muted);">Tiranë, Liqeni i Thatë</div>
+            </div>
+            <span class="badge" style="background:var(--good-soft); color:var(--good);">Në rrugë të mirë</span>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:6px;">
+            <div style="height:10px; background:var(--border); border-radius:99px; overflow:hidden;">
+              <div style="height:100%; width:18%; background:var(--steel); border-radius:99px;"></div>
+            </div>
+            <div style="display:flex; justify-content:space-between; font-size:12.5px; color:var(--ink-muted);">
+              <span>3.330.000 L nga 18.500.000 L</span>
+              <span style="font-weight:600; color:var(--ink);">18%</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div style="width:360px; flex-shrink:0; background:var(--surface); border:1px solid var(--border); border-radius:14px; display:flex; flex-direction:column; overflow:hidden; align-self:flex-start;">
+      <div style="padding:18px 22px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        <div style="font-size:13px; font-weight:600; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.03em;">Komente &mdash; Kompleksi Astir</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:16px; padding:20px 22px; flex:1;">
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:13.5px; font-weight:600;">Elira Musaraj</div>
+            <div style="font-size:11.5px; color:var(--ink-muted);">dje</div>
+          </div>
+          <div style="font-size:13.5px; color:var(--ink); line-height:1.5;">Furnizuesi i çimentos vonoi 2 ditë &mdash; e mbuluam me stokun ekzistues.</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:4px;">
+          <div style="display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:13.5px; font-weight:600;">Besnik Hoxha</div>
+            <div style="font-size:11.5px; color:var(--ink-muted);">2 ditë më parë</div>
+          </div>
+          <div style="font-size:13.5px; color:var(--ink); line-height:1.5;">Mirë, vazhdo kështu. Kontrollo edhe koston e hekurit këtë javë.</div>
+        </div>
+      </div>
+
+      <div style="padding:16px 22px; border-top:1px solid var(--border); display:flex; gap:8px;">
+        <div style="flex:1; background:var(--bg); border:1px solid var(--border); border-radius:10px; padding:11px 14px; font-size:13.5px; color:var(--ink-muted);">Shto koment&hellip;</div>
+        <button style="background:var(--accent); color:var(--accent-ink); border:none; border-radius:10px; padding:0 16px; font-size:13px; font-weight:600; cursor:pointer;">Dërgo</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

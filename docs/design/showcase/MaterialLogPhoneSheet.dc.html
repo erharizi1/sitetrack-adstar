@@ -1,0 +1,92 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --border: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  </style>
+</helmet>
+
+<div style="width:390px; height:844px; background:var(--bg); position:relative; overflow:hidden;">
+
+  <div style="padding:24px 20px; opacity:0.35; display:flex; flex-direction:column; gap:4px;">
+    <div style="font-size:16px; font-weight:600;">Kompleksi Astir</div>
+    <div style="font-size:12.5px; color:var(--ink-muted);">Materiale &middot; Sot, 7 Shtator 2026</div>
+  </div>
+
+  <div style="position:absolute; inset:0; background:rgba(33,28,22,0.42);"></div>
+
+  <div style="position:absolute; left:0; right:0; bottom:0; background:var(--surface); border-radius:20px 20px 0 0; box-shadow:0 -8px 30px rgba(33,28,22,0.18); display:flex; flex-direction:column; max-height:640px;">
+
+    <div style="display:flex; justify-content:center; padding:12px 0 4px;">
+      <div style="width:36px; height:4px; background:var(--border); border-radius:99px;"></div>
+    </div>
+
+    <div style="padding:8px 22px 16px; display:flex; flex-direction:column; gap:14px;">
+      <div style="font-size:17px; font-weight:600;">Zgjidh material</div>
+
+      <div style="display:flex; align-items:center; gap:10px; background:var(--bg); border:1px solid var(--border); border-radius:11px; padding:11px 14px;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+        <div style="font-size:14px; color:var(--ink-muted);">Kërko material&hellip;</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px;">
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:13px 14px; border-radius:11px; background:var(--accent); color:var(--accent-ink);">
+          <div style="display:flex; flex-direction:column; gap:1px;">
+            <div style="font-size:14.5px; font-weight:600;">Çimento</div>
+            <div style="font-size:12px; opacity:0.85;">950 L / thes</div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:13px 14px; border-radius:11px; border:1px solid var(--border);">
+          <div style="display:flex; flex-direction:column; gap:1px;">
+            <div style="font-size:14.5px; font-weight:600;">Rërë lumi</div>
+            <div style="font-size:12px; color:var(--ink-muted);">1.400 L / m&sup3;</div>
+          </div>
+        </div>
+
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:13px 14px; border-radius:11px; border:1px solid var(--border);">
+          <div style="display:flex; flex-direction:column; gap:1px;">
+            <div style="font-size:14.5px; font-weight:600;">Zhavorr</div>
+            <div style="font-size:12px; color:var(--ink-muted);">1.100 L / m&sup3;</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="border-top:1px solid var(--border); padding-top:16px; display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:13px; font-weight:600; color:var(--ink-muted); text-transform:uppercase; letter-spacing:0.03em;">Sasia</div>
+        <div style="display:flex; align-items:center; gap:14px;">
+          <button style="width:44px; height:44px; border-radius:11px; border:1px solid var(--border); background:var(--surface); font-size:20px; color:var(--ink); cursor:pointer;">&minus;</button>
+          <div style="flex:1; text-align:center; font-size:20px; font-weight:600;" class="num">40 <span style="font-size:13px; font-weight:500; color:var(--ink-muted);">thes</span></div>
+          <button style="width:44px; height:44px; border-radius:11px; border:1px solid var(--border); background:var(--surface); font-size:20px; color:var(--ink); cursor:pointer;">+</button>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; background:var(--bg); border-radius:11px; padding:13px 16px;">
+          <div style="font-size:13px; color:var(--ink-muted); font-weight:600;">Kosto e rreshtit</div>
+          <div class="num" style="font-size:17px; font-weight:700;">38.000 L</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:14px 22px 26px;">
+      <button style="width:100%; background:var(--accent); color:var(--accent-ink); border:none; border-radius:12px; padding:15px; font-size:15px; font-weight:600; cursor:pointer;">Shto në ditar</button>
+    </div>
+
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

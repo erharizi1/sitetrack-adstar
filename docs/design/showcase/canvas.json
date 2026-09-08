@@ -1,0 +1,25 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "Inxhinier — Projektet", "page": "page-overview" },
+    { "file": "DailyLog.dc.html", "x": 470, "y": 0, "w": 390, "h": 844, "title": "Inxhinier — Regjistrimi Ditor", "page": "page-overview" },
+    { "file": "PMDashboard.dc.html", "x": 0, "y": 1044, "w": 1440, "h": 900, "title": "Menaxheri — Paneli", "page": "page-overview" },
+    { "file": "OwnerOverview.dc.html", "x": 1560, "y": 1044, "w": 1440, "h": 900, "title": "Pronari — Pasqyra", "page": "page-overview" },
+
+    { "file": "MaterialLogPhone.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "Materiale — Telefon", "page": "page-materials" },
+    { "file": "MaterialLogPhoneSheet.dc.html", "x": 470, "y": 0, "w": 390, "h": 844, "title": "Materiale — Shto (Telefon)", "page": "page-materials" },
+    { "file": "MaterialLogWeb.dc.html", "x": 960, "y": 0, "w": 1280, "h": 800, "title": "Materiale — Web", "page": "page-materials" },
+
+    { "file": "DayIdeaB.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "Dita e sotme — Telefon", "page": "page-day" }
+  ],
+  "annotations": [
+    { "id": "brief-note", "x": 0, "y": -140, "w": 480, "text": "SiteTrack — vitrina e ekraneve\nTë dhënat dhe shumat janë ilustruese. Shqipja duhet rishikuar nga Moisi.", "page": "page-overview" },
+    { "id": "materials-note", "x": 0, "y": -140, "w": 620, "text": "Regjistrimi i materialeve — draft i parë per fokusim ne kete feature (feature/material-log)\nTelefon: shtimi hapet si sheet nga poshtë. Web: paneli i shtimit qëndron gjithmonë i dukshëm anash — pa modal.", "page": "page-materials" },
+    { "id": "day-note", "x": 0, "y": -180, "w": 500, "text": "Drejtimi i zgjedhur (nga 3 ide): skeda Materiale/Fuqi punëtore + një shirit i përbashkët poshtë me të dy totalet dhe totalin e ditës.", "page": "page-day" }
+  ],
+  "pages": [
+    { "id": "page-day", "name": "Dita e Sotme" },
+    { "id": "page-materials", "name": "Regjistrimi i Materialeve" },
+    { "id": "page-overview", "name": "Pasqyra e ekraneve" }
+  ],
+  "launch": { "view": "canvas", "page": "page-day" }
+}

@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --border: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE; --good: #16A34A; --good-soft: #DCFCE7;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+  </style>
+</helmet>
+
+<div style="width:390px; min-height:844px; background:var(--bg); display:flex; flex-direction:column;">
+
+  <div style="display:flex; align-items:center; gap:14px; padding:24px 20px 18px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    <div style="display:flex; flex-direction:column;">
+      <div style="font-size:16px; font-weight:600;">Kompleksi Astir</div>
+      <div style="font-size:12.5px; color:var(--ink-muted);">Materiale &middot; Sot, 7 Shtator 2026</div>
+    </div>
+  </div>
+
+  <div style="flex:1; display:flex; flex-direction:column; gap:12px; padding:8px 20px 140px;">
+
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden;">
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--border);">
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:14.5px; font-weight:600;">Çimento</div>
+          <div style="font-size:12.5px; color:var(--ink-muted);">40 thes &times; 950 L</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="num" style="font-size:14.5px; font-weight:600;">38.000 L</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px;">
+        <div style="display:flex; flex-direction:column; gap:2px;">
+          <div style="font-size:14.5px; font-weight:600;">Hekur betoni Ø12</div>
+          <div style="font-size:12.5px; color:var(--ink-muted);">800 kg &times; 130 L</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div class="num" style="font-size:14.5px; font-weight:600;">104.000 L</div>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--ink-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2m3 0-1 14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2L4 6"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <button style="display:flex; align-items:center; justify-content:center; gap:8px; background:transparent; border:1.5px dashed var(--border); color:var(--steel); font-size:14.5px; font-weight:600; padding:15px; border-radius:12px; cursor:pointer;">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      Shto material
+    </button>
+
+  </div>
+
+  <div style="position:sticky; bottom:0; background:linear-gradient(180deg, rgba(246,242,234,0) 0%, var(--bg) 28%); padding:18px 20px 24px;">
+    <div style="background:var(--ink); border-radius:14px; padding:16px 20px; display:flex; align-items:center; justify-content:space-between;">
+      <div style="color:#D8D2C6; font-size:13px; font-weight:600;">Kosto e materialeve</div>
+      <div class="num" style="color:#FFFFFF; font-size:22px; font-weight:700;">142.000 L</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
