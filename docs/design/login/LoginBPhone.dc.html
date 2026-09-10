@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --line: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE; --good: #16A34A;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+  </style>
+</helmet>
+
+<div style="width:390px; height:844px; background:var(--bg); display:flex; flex-direction:column; justify-content:center; gap:28px; padding:0 24px;">
+
+  <div style="display:flex; flex-direction:column; gap:18px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:40px; height:40px; border-radius:12px; background:var(--accent); display:flex; align-items:center; justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+      </div>
+      <div style="font-size:17px; font-weight:700;">SiteTrack</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:6px;">
+      <div style="font-size:26px; font-weight:700; letter-spacing:-0.01em;">Mirë se erdhe</div>
+      <div style="font-size:14.5px; color:var(--ink-muted);">Hyr me numrin e telefonit — pa fjalëkalim.</div>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:16px;">
+    <div style="display:flex; flex-direction:column; gap:7px;">
+      <div style="font-size:13px; font-weight:600;">Numri i telefonit</div>
+      <div style="min-height:52px; display:flex; align-items:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:15px;">
+        <div style="padding:0 12px 0 16px; border-right:1px solid var(--line); color:var(--ink-muted); align-self:stretch; display:flex; align-items:center;">+355</div>
+        <div style="flex:1; padding:0 12px;">69 123 4567</div>
+        <a style="padding:0 16px; align-self:stretch; display:flex; align-items:center; font-size:14px; font-weight:600;">Ndrysho</a>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px; font-size:13px; color:var(--good); font-weight:600;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        <span>Kodi u dërgua me SMS</span>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:7px;">
+      <div style="font-size:13px; font-weight:600;">Kodi 6-shifror</div>
+      <div style="display:flex; gap:8px;">
+        <div style="flex:1; height:56px; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:22px; font-weight:600;">4</div>
+        <div style="flex:1; height:56px; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:22px; font-weight:600;">8</div>
+        <div style="flex:1; height:56px; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:22px; font-weight:600;">1</div>
+        <div style="flex:1; height:56px; background:var(--surface); border:2px solid var(--accent); border-radius:12px;"></div>
+        <div style="flex:1; height:56px; background:var(--surface); border:1px solid var(--line); border-radius:12px;"></div>
+        <div style="flex:1; height:56px; background:var(--surface); border:1px solid var(--line); border-radius:12px;"></div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; min-height:44px; font-size:13.5px;">
+        <span style="color:var(--ink-muted);">Nuk erdhi kodi?</span>
+        <a style="font-weight:600;">Ridërgo pas 0:42</a>
+      </div>
+    </div>
+
+    <button style="min-height:56px; border:none; border-radius:12px; background:var(--accent); color:var(--accent-ink); font-size:15.5px; font-weight:600;">Hyr</button>
+  </div>
+
+  <div style="text-align:center; font-size:12.5px; color:var(--ink-muted);">Numri duhet të jetë i regjistruar nga administratori.</div>
+
+</div>
+</x-dc>
+</body>
+</html>

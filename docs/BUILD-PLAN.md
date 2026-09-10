@@ -7,8 +7,8 @@ Pairs with `CONTEXT.md` (why/what) and `ARCHITECTURE.md` (how it's put together)
 Claude Code → review the diffs → run locally → commit + push → ask Claude Code to log it to
 `docs/worklog.md` → open a PR into `develop` → merge → delete the branch. One feature at a time.
  
-Where we are now: repo + Next.js scaffold exist, Prisma installed, context files in `docs/`,
-working on the `develop` branch. Next up is Phase 0.
+Where we are now: Phase 0 and Phase 1 are done and merged. The designs decided so far are in
+`docs/design/final-designs/`. Next up: Phase 1.5, accounts.
  
 ---
  
@@ -74,6 +74,64 @@ branches per step.
 
 **Dropped for the pilot:** a `feature/projects-list` engineer-facing picker screen — not needed
 while there's only one project. Revisit if/when one engineer needs to switch between several.
+
+**Done** — `feature/app-shell` (PR #3) and `feature/engineer-daily-log` (PR #4) are merged; the screen
+is live at `/`. Final design: `docs/design/final-designs/engineer-daily-log/`.
+ 
+---
+ 
+## Phase 1.5 — Accounts: roles, login, team
+
+Goal: real people with real accounts. Three roles — Owner, Engineer, Technician (Pronar /
+Inxhinier / Teknik) — each added only by the role above, and everyone logs in with an emailed link,
+no password. See `docs/decisions/log.md` (2026-09-10). Everything after this — the Engineer's
+dashboard, approvals — needs to know who is logged in.
+
+Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invite/`
+(exploration and the options not picked: `docs/design/login/`).
+
+3. **`feature/rename-roles`** — the code and docs still use the old names, and "engineer" in the
+   code currently means the on-site person, the opposite of its new meaning. Rename everything in
+   one go before any auth work, with no change in behaviour: route group `(engineer)` →
+   `(technician)` and `(pm)` → `(engineer)` (URLs stay `/` and `/dashboard`), `labels.engineer` →
+   `labels.technician`, `DailyLog.engineerName` → `technicianName` (a Prisma migration), and the
+   wording in `CONTEXT.md`, `ARCHITECTURE.md` and this file.
+   > "Read docs/decisions/log.md (2026-09-10, three roles). Rename the roles across the code and
+   > docs: the on-site person is now the Technician, the project lead is the Engineer. Rename
+   > app/(engineer) to app/(technician) and app/(pm) to app/(engineer), labels.engineer to
+   > labels.technician, and DailyLog.engineerName to technicianName with a Prisma migration. Update
+   > CONTEXT.md, ARCHITECTURE.md and BUILD-PLAN.md to the new names. No behaviour changes."
+4. **`feature/login`** — accounts and login by emailed link: a profile table tied to Supabase Auth,
+   holding each person's name, role and project(s); the three login screens from the final design;
+   after the link, each role lands on its own screen (technician → `/`, engineer → `/dashboard`,
+   the owner → `/dashboard` until the owner overview exists). Every page and server action requires
+   a logged-in user with the right role — today they're open to anyone with the URL — and each
+   day's log records the logged-in technician instead of the fixed name. One Owner account is
+   seeded, since nobody is above the Owner to invite them. Supabase's built-in email is fine while
+   building; real use needs a proper email service connected.
+   > "Read docs/decisions/log.md (2026-09-10) and docs/design/final-designs/login/. Add accounts: a
+   > profile table linked to Supabase Auth with name, role (owner / engineer / technician) and
+   > project membership. Build the Login, CheckEmail and LinkExpired screens to match the final
+   > designs, logging in with Supabase email links — no passwords. After the link, send technicians
+   > to /, engineers and the owner to /dashboard. Protect every page and server action so nothing
+   > works without a logged-in user of the right role, and record the logged-in technician on each
+   > DailyLog instead of the fixed name. Seed one Owner account. Use Supabase's built-in email for
+   > now."
+5. **`feature/team-invite`** — the team page from the final design: the project's people with
+   their status (Aktiv / Në pritje / Çaktivizuar), resend on pending invites, deactivate and
+   reactivate, and the add form beside the list (a bottom sheet on phone). Sending it invites the
+   person by email with a Supabase invite link; the role comes from who is inviting (an engineer
+   adds technicians, the owner adds engineers — using this same page until the owner overview
+   exists) and the project is picked in the form. The email follows `InviteEmail.dc.html`. Only
+   the role directly above can add, resend or deactivate. Needs the proper email service in place
+   first — Supabase's built-in sender only allows a few emails an hour.
+   > "Read docs/decisions/log.md (2026-09-10) and docs/design/final-designs/invite/. Build the team
+   > page at (engineer)/team: the project's people with their status (Aktiv / Në pritje /
+   > Çaktivizuar), resend on pending invites, deactivate and reactivate on the rest, and an add form
+   > in a side panel (a bottom sheet on phone). Sending the form invites the person by email with a
+   > Supabase invite link; the role comes from who is inviting (engineer → technician, owner →
+   > engineer) and the project is picked in the form. Use InviteEmail.dc.html for the email
+   > template. Only the role directly above may add, resend or deactivate."
  
 ---
  
@@ -82,15 +140,15 @@ while there's only one project. Revisit if/when one engineer needs to switch bet
 Goal: the PM sees where money is going against budget, across projects, and approves what the
 engineer submitted.
  
-3. **`feature/pm-dashboard`** — PM dashboard reading from the DB: budget vs actual, today's cost,
+6. **`feature/pm-dashboard`** — PM dashboard reading from the DB: budget vs actual, today's cost,
    list of daily logs with status. Desktop layout.
    > "Build (pm)/dashboard/page.tsx: read the project's daily logs, show budget vs actual, today's
    > cost, and a list of logs with status. Desktop layout."
-4. **`feature/pm-approve`** — PM approves/rejects a submitted log (status → approved/rejected,
+7. **`feature/pm-approve`** — PM approves/rejects a submitted log (status → approved/rejected,
    optional manager note, stamp `approvedAt`).
    > "Add approve and reject server actions on a DailyLog (set status, managerNotes, approvedAt) and
    > buttons on the dashboard."
-5. **`feature/budget-alerts`** — flag overruns: mark days/logs crossing a threshold of the daily or
+8. **`feature/budget-alerts`** — flag overruns: mark days/logs crossing a threshold of the daily or
    cumulative budget. The "know before it's too late" promise.
    > "Add budget-alert logic in lib/cost.ts that flags when a day's cost or the running total
    > crosses a configurable threshold, and surface the flag on the PM dashboard."

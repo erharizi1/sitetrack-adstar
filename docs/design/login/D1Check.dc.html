@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --line: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+  </style>
+</helmet>
+
+<div style="width:390px; height:844px; background:var(--bg); display:flex; flex-direction:column; justify-content:center; gap:28px; padding:0 24px;">
+
+  <div style="display:flex; align-items:center; gap:10px;">
+    <div style="width:40px; height:40px; border-radius:12px; background:var(--accent); display:flex; align-items:center; justify-content:center;">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+    </div>
+    <div style="font-size:17px; font-weight:700;">SiteTrack</div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <div style="width:64px; height:64px; border-radius:99px; background:var(--steel-soft); color:var(--accent); display:flex; align-items:center; justify-content:center;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 6l-10 7L2 6"/></svg>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:8px;">
+      <div style="font-size:26px; font-weight:700; letter-spacing:-0.01em;">Shiko email-in</div>
+      <div style="font-size:15px; line-height:1.5; color:var(--ink-muted);">Të dërguam një link te <span style="color:var(--ink); font-weight:600;">agron.krasniqi@gmail.com</span>. Shtyp linkun në email për të hyrë.</div>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:8px;">
+    <div style="padding:14px 16px; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:13.5px; line-height:1.5; color:var(--ink-muted);">Linku vlen 24 orë. Nëse nuk e gjen, shiko edhe te Spam.</div>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:44px; font-size:14px;">
+      <span style="color:var(--ink-muted);">Nuk erdhi?</span>
+      <a style="min-height:44px; display:flex; align-items:center; font-weight:600;">Dërgo sërish</a>
+    </div>
+    <a style="min-height:44px; display:flex; align-items:center; font-size:14px; font-weight:600;">Ndrysho email-in</a>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --line: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+  </style>
+</helmet>
+
+<div style="width:600px; height:680px; background:var(--bg); display:flex; flex-direction:column; gap:16px; padding:24px;">
+
+  <div style="background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:14px 18px; display:flex; flex-direction:column; gap:4px; font-size:13px;">
+    <div style="display:flex; gap:8px;"><span style="width:44px; color:var(--ink-muted);">Nga</span><span>SiteTrack</span></div>
+    <div style="display:flex; gap:8px;"><span style="width:44px; color:var(--ink-muted);">Për</span><span>dritan.leka@gmail.com</span></div>
+    <div style="display:flex; gap:8px;"><span style="width:44px; color:var(--ink-muted);">Tema</span><span style="font-weight:600;">Elira Musaraj të ftoi në SiteTrack</span></div>
+  </div>
+
+  <div style="background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:36px; display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:36px; height:36px; border-radius:10px; background:var(--accent); display:flex; align-items:center; justify-content:center;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+      </div>
+      <div style="font-size:16px; font-weight:700;">SiteTrack</div>
+    </div>
+    <div style="font-size:18px; font-weight:600;">Përshëndetje Dritan,</div>
+    <div style="font-size:15px; line-height:1.6;">Elira Musaraj të shtoi si <span style="font-weight:600;">teknik</span> në projektin <span style="font-weight:600;">Kompleksi Astir</span>. Shtyp butonin për të hyrë — nuk të duhet fjalëkalim.</div>
+    <div style="display:flex;">
+      <a style="min-height:52px; display:flex; align-items:center; padding:0 28px; border-radius:12px; background:var(--accent); color:var(--accent-ink); font-size:15.5px; font-weight:600;">Hyr në SiteTrack</a>
+    </div>
+    <div style="font-size:13px; line-height:1.5; color:var(--ink-muted);">Linku vlen 24 orë dhe përdoret vetëm një herë. Nëse skadon, kërko një të ri te faqja e hyrjes.</div>
+    <div style="height:1px; background:var(--line);"></div>
+    <div style="font-size:12.5px; color:var(--ink-muted);">Nuk e prisje këtë email? Mund ta injorosh.</div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
