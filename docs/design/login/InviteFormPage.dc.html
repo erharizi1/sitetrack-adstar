@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --line: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+  </style>
+</helmet>
+
+<div style="width:1280px; height:800px; background:var(--bg); display:flex; flex-direction:column;">
+
+  <div style="height:64px; display:flex; align-items:center; justify-content:space-between; padding:0 40px; background:var(--surface); border-bottom:1px solid var(--line);">
+    <div style="display:flex; align-items:center; gap:28px;">
+      <div style="display:flex; align-items:center; gap:9px;">
+        <div style="width:32px; height:32px; border-radius:10px; background:var(--accent); display:flex; align-items:center; justify-content:center;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+        </div>
+        <div style="font-size:15px; font-weight:700;">SiteTrack</div>
+      </div>
+      <div style="display:flex; gap:4px;">
+        <div style="padding:8px 12px; border-radius:8px; font-size:14px; color:var(--ink-muted);">Paneli</div>
+        <div style="padding:8px 12px; border-radius:8px; font-size:14px; font-weight:600; background:var(--steel-soft); color:var(--steel);">Ekipi</div>
+      </div>
+    </div>
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="display:flex; flex-direction:column; align-items:flex-end;">
+        <div style="font-size:13.5px; font-weight:600;">Elira Musaraj</div>
+        <div style="font-size:12px; color:var(--ink-muted);">Inxhiniere</div>
+      </div>
+      <div style="width:36px; height:36px; border-radius:99px; background:var(--accent); color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;">EM</div>
+    </div>
+  </div>
+
+  <div style="flex:1; display:flex; justify-content:center; padding:36px 40px;">
+    <div style="width:560px; display:flex; flex-direction:column; gap:22px;">
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <a style="min-height:32px; display:flex; align-items:center; gap:6px; font-size:13.5px; font-weight:600;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          <span>Ekipi</span>
+        </a>
+        <div style="font-size:26px; font-weight:700; letter-spacing:-0.01em;">Shto teknik</div>
+        <div style="font-size:14.5px; color:var(--ink-muted);">Do të marrë një email me një link për të hyrë. Pa fjalëkalim.</div>
+      </div>
+
+      <div style="background:var(--surface); border:1px solid var(--line); border-radius:16px; padding:28px; display:flex; flex-direction:column; gap:18px;">
+        <div style="display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px;">
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <div style="font-size:13px; font-weight:600;">Emri</div>
+            <div style="min-height:46px; display:flex; align-items:center; padding:0 14px; border:1px solid var(--line); border-radius:12px; font-size:15px;">Dritan</div>
+          </div>
+          <div style="display:flex; flex-direction:column; gap:7px;">
+            <div style="font-size:13px; font-weight:600;">Mbiemri</div>
+            <div style="min-height:46px; display:flex; align-items:center; padding:0 14px; border:1px solid var(--line); border-radius:12px; font-size:15px;">Leka</div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="font-size:13px; font-weight:600;">Email</div>
+          <div style="min-height:46px; display:flex; align-items:center; padding:0 14px; border:2px solid var(--accent); border-radius:12px; font-size:15px;">dritan.leka@gmail.com</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="font-size:13px; font-weight:600;">Projekti</div>
+          <div style="min-height:46px; display:flex; align-items:center; justify-content:space-between; padding:0 14px; border:1px solid var(--line); border-radius:12px; font-size:15px;">
+            <span>Kompleksi Astir</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6B7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <div style="font-size:13px; font-weight:600;">Roli</div>
+          <div style="padding:4px 10px; border-radius:99px; background:var(--steel-soft); color:var(--steel); font-size:12.5px; font-weight:600;">Teknik</div>
+          <div style="font-size:13px; color:var(--ink-muted);">Si inxhiniere, mund të shtosh teknikë.</div>
+        </div>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
+        <div style="font-size:13px; color:var(--ink-muted);">Linku vlen 24 orë. Mund ta dërgosh sërish nga lista e ekipit.</div>
+        <div style="display:flex; gap:10px;">
+          <button style="min-height:46px; padding:0 18px; border:1px solid var(--line); border-radius:12px; background:var(--surface); color:var(--ink); font-size:14.5px; font-weight:600;">Anulo</button>
+          <button style="min-height:46px; padding:0 20px; border:none; border-radius:12px; background:var(--accent); color:var(--accent-ink); font-size:14.5px; font-weight:600;">Dërgo ftesën</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

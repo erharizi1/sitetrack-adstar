@@ -1,0 +1,45 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "1 · Login", "page": "page-login" },
+    { "file": "CheckEmail.dc.html", "x": 470, "y": 0, "w": 390, "h": 844, "title": "2 · Check your email", "page": "page-login" },
+    { "file": "LinkExpired.dc.html", "x": 940, "y": 0, "w": 390, "h": 844, "title": "3 · Expired link", "page": "page-login" },
+
+    { "file": "TeamPanel.dc.html", "x": 0, "y": 0, "w": 1280, "h": 800, "title": "Team + add a person — desktop", "page": "page-invite" },
+    { "file": "TeamPhone.dc.html", "x": 0, "y": 1100, "w": 390, "h": 844, "title": "Team + add a person — phone", "page": "page-invite" },
+    { "file": "InviteEmail.dc.html", "x": 470, "y": 1100, "w": 600, "h": 680, "title": "The invite email", "page": "page-invite" },
+
+    { "file": "LoginAPhone.dc.html", "x": 0, "y": 0, "w": 390, "h": 844, "title": "A · Email + password — phone", "page": "page-old" },
+    { "file": "LoginADesktop.dc.html", "x": 470, "y": 0, "w": 1280, "h": 800, "title": "A · Email + password — desktop", "page": "page-old" },
+    { "file": "LoginBPhone.dc.html", "x": 0, "y": 1004, "w": 390, "h": 844, "title": "B · Phone + SMS code — phone", "page": "page-old" },
+    { "file": "LoginBDesktop.dc.html", "x": 470, "y": 1004, "w": 1280, "h": 800, "title": "B · Phone + SMS code — desktop", "page": "page-old" },
+    { "file": "LoginCPhone.dc.html", "x": 0, "y": 2008, "w": 390, "h": 844, "title": "C · Pick your name + PIN — phone", "page": "page-old" },
+    { "file": "LoginCDesktop.dc.html", "x": 470, "y": 2008, "w": 1280, "h": 800, "title": "C · Pick your name + PIN — desktop", "page": "page-old" },
+    { "file": "D1Check.dc.html", "x": 0, "y": 3012, "w": 390, "h": 844, "title": "D1 · Calm — check your email (not picked)", "page": "page-old" },
+    { "file": "D2Login.dc.html", "x": 470, "y": 3012, "w": 390, "h": 844, "title": "D2 · Site (bold) — login (not picked)", "page": "page-old" },
+    { "file": "D2Check.dc.html", "x": 940, "y": 3012, "w": 390, "h": 844, "title": "D2 · Site (bold) — check your email (not picked)", "page": "page-old" },
+    { "file": "D3Login.dc.html", "x": 1410, "y": 3012, "w": 390, "h": 844, "title": "D3 · Step by step — login (not picked)", "page": "page-old" },
+    { "file": "D3Check.dc.html", "x": 1880, "y": 3012, "w": 390, "h": 844, "title": "D3 · Step by step — check your email, with the progress strip", "page": "page-old" },
+    { "file": "InviteFormPage.dc.html", "x": 0, "y": 4016, "w": 1280, "h": 800, "title": "P1 · Full-page invite form — desktop (not picked)", "page": "page-old" }
+  ],
+  "annotations": [
+    { "id": "brief-login", "x": 0, "y": -230, "w": 860, "page": "page-login", "text": "Login — chosen: D1's login, then the step-by-step 'check your email' from D3 without its progress strip. Expired link unchanged.\nFirst time, a new person never sees these: the invite email and one click log them in. These screens are for later — new phone, or logged out." },
+    { "id": "note-flow", "x": 1410, "y": 0, "w": 420, "page": "page-login", "text": "The flow\n1 · type your email, get a link\n2 · open the email and tap the button — you land on your own main screen (technician: today's log, engineer: the dashboard)\n3 · only if the link is over 24 hours old or already used: ask for a new one" },
+
+    { "id": "brief-invite", "x": 0, "y": -250, "w": 900, "page": "page-invite", "text": "Invite — chosen: the team list with the add form beside it (P2). Phone: the same list, with the form as a bottom sheet.\nShown: an Engineer adding a Technician. The Owner adds an Engineer the same way. The role comes from who is adding; the project is picked in the form.\nOn send, the new person gets the email below and is in with one click." },
+    { "id": "note-p2", "x": 0, "y": 840, "w": 600, "page": "page-invite", "text": "The team list shows each person's status — Aktiv / Në pritje / Çaktivizuar — with resend and deactivate on each row (on phone: tap the person). The add form slides in beside the list, so you can see who's already on the team while adding." },
+    { "id": "note-email", "x": 1150, "y": 1180, "w": 440, "page": "page-invite", "text": "The invite email — the real first impression\nSays who invited you, to which project, in what role; one big button; the 24-hour limit and what to do if it runs out.\nSending it for real needs a proper email service (Supabase's built-in sender is for testing only)." },
+
+    { "id": "brief", "x": 0, "y": -230, "w": 760, "page": "page-old", "text": "Not chosen — kept for the record.\nRows 1–3: the first round of login ideas (A/B/C), replaced by the invite-link decision.\nRow 4: second-round login screens that weren't picked.\nRow 5: the full-page invite form (P1) — the team list with a side panel was picked instead." },
+    { "id": "note-a", "x": 1830, "y": 0, "w": 440, "page": "page-old", "text": "A — Email + password\nWhy: the familiar one. Supabase has it built in, no extra cost. With \"keep me signed in\", the engineer logs in once on his phone and stays logged in.\nTradeoff: typing a password on a phone on site, maybe with gloves on — and passwords get forgotten." },
+    { "id": "note-b", "x": 1830, "y": 1004, "w": 440, "page": "page-old", "text": "B — Phone number + SMS code\nWhy: no password to remember or type — suits the engineer on site, and everyone already has a phone.\nTradeoff: needs an SMS provider (e.g. Twilio) connected to Supabase — a cost per SMS, plus setup. The PM on desktop needs his phone at hand to log in." },
+    { "id": "note-c", "x": 1830, "y": 2008, "w": 440, "page": "page-old", "text": "C — Tap your name + 4-digit PIN\nWhy: the fastest — one tap and four digits, with a big keypad that works with gloves. Logs in by itself after the 4th digit.\nTradeoff: the weakest security — fine for a pilot with a few people, not for many users. Supabase doesn't offer it built in, so it has to be built ourselves." },
+    { "id": "note-round2", "x": 2350, "y": 3012, "w": 440, "page": "page-old", "text": "Round 2, not picked\nD1's 'check your email' — replaced by the step-by-step one.\nD2 'Site (bold)' — both states: built for sun and gloves, but loud next to the rest of the app.\nD3's login — D1's was preferred.\nD3's original 'check your email' — the chosen screen is this one without the progress strip." },
+    { "id": "note-p1", "x": 1360, "y": 4016, "w": 440, "page": "page-old", "text": "P1 — Full-page invite form, not picked\nSimplest to build, but you leave the team list while adding and can't see who's already on the team. The list + side panel was picked instead." }
+  ],
+  "pages": [
+    { "id": "page-login", "name": "Hyrja (login)" },
+    { "id": "page-invite", "name": "Ftesa (invite)" },
+    { "id": "page-old", "name": "Opsionet që nuk u zgjodhën" }
+  ],
+  "launch": { "view": "canvas", "page": "page-login" }
+}

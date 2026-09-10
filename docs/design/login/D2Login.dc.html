@@ -1,0 +1,52 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --line: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--surface); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+  </style>
+</helmet>
+
+<div style="width:390px; height:844px; background:var(--surface); display:flex; flex-direction:column;">
+
+  <div style="height:340px; background:var(--accent); color:#FFFFFF; display:flex; flex-direction:column; justify-content:flex-end; gap:12px; padding:28px 24px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:40px; height:40px; border-radius:12px; background:#FFFFFF; display:flex; align-items:center; justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+      </div>
+      <div style="font-size:18px; font-weight:700;">SiteTrack</div>
+    </div>
+    <div style="font-size:30px; font-weight:700; line-height:1.15; letter-spacing:-0.01em;">Mirë se u ktheve</div>
+    <div style="font-size:15px; color:rgba(255,255,255,0.95);">Pa fjalëkalim. Vetëm email-i yt.</div>
+  </div>
+
+  <div style="flex:1; display:flex; flex-direction:column; justify-content:space-between; padding:28px 24px 32px;">
+    <div style="display:flex; flex-direction:column; gap:10px;">
+      <div style="font-size:15px; font-weight:600;">Email-i yt</div>
+      <div style="min-height:64px; display:flex; align-items:center; padding:0 18px; background:var(--surface); border:2px solid var(--ink); border-radius:14px; font-size:18px;">agron.krasniqi@gmail.com</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <button style="min-height:64px; display:flex; align-items:center; justify-content:center; gap:10px; border:none; border-radius:14px; background:var(--accent); color:var(--accent-ink); font-size:18px; font-weight:700;">
+        <span>Dërgo linkun</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <div style="text-align:center; font-size:13px; color:var(--ink-muted);">Llogaritë krijohen vetëm me ftesë.</div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>
