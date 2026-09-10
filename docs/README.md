@@ -31,14 +31,17 @@ session, so it already knows the above.
  
 ## Where the code lives
  
-- `src/app/(engineer)/` — the site engineer's screens (mobile-first).
-- `src/app/(pm)/` — the project manager's dashboard (desktop).
-- `src/components/` — shared UI (cards, forms, badges); `ui/` holds shadcn primitives.
-- `src/lib/cost.ts` — **all** cost calculation. One place, on purpose.
-- `src/lib/labels.ts` — Albanian UI strings. No hardcoded text in components.
-- `src/lib/prisma.ts` — the database client.
-- `src/actions/` — server actions that write to the database.
-- `prisma/schema.prisma` — the data model (source of truth). `prisma/seed.ts` loads real pilot data.
+- `app/(engineer)/` — the site engineer's screen (mobile-first), served at `/`. Its pieces are in
+  `app/(engineer)/_components/`.
+- `app/(pm)/` — the project manager's dashboard (desktop), served at `/dashboard`.
+- `lib/cost.ts` — **all** cost calculation. One place, on purpose.
+- `lib/labels.ts` — Albanian UI strings. No hardcoded text in components.
+- `lib/prisma.ts` — the database client.
+- `actions/` — server actions that write to the database.
+- `prisma/schema.prisma` — the data model (source of truth). `prisma/seed.ts` loads the pilot
+  project and its material/labor catalogs (placeholder figures until the real ones arrive).
+- `app/generated/prisma/` — generated database client. Not in git; see setup below.
+ 
 ---
  
 ## How we develop
@@ -54,19 +57,67 @@ in `docs/ARCHITECTURE.md`.
  
 ```bash
 npm install
+npx prisma generate         # builds the database client — the app won't start without it
 ```
- 
-Create `.env.local` in the project root with the Supabase values (see the team):
- 
+
+Create `.env` in the project root with the Supabase values (ask the team). It has to be `.env`,
+not `.env.local` — the Prisma commands only read `.env`.
+
 ```env
 DATABASE_URL="..."
 NEXT_PUBLIC_SUPABASE_URL="..."
 NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
 ```
- 
-Then set up the database and start the app:
- 
+
+For `DATABASE_URL`, use the **Session pooler** connection string (Supabase → Connect → Session
+pooler, port 5432). The direct `db.<ref>.supabase.co` host is IPv6-only and won't connect from most
+networks.
+
+Then start the app:
+
 ```bash
-npx prisma migrate dev      # create the tables
-npx prisma db seed          # load the pilot project (once seed.ts exists)
-npm run dev                 # http://localhost:3000
+npm run db:seed             # only if the database is empty — loads the pilot project
+npm run dev                 # http://localhost:3000 (engineer) and /dashboard (PM)
+```
+
+The shared Supabase database already has the tables. Only if you point at a fresh database, create
+them first with `npx prisma migrate deploy`.
+
+> **Working with Claude Code:** its sandbox blocks database ports, so it can't run `db:seed` or
+> migrations itself — run those in your own terminal. The same goes for `npm run dev` if you want
+> the page to load real data.
+
+---
+
+## One-time tooling setup
+
+**GitHub CLI (`gh`)** — lets Claude Code open pull requests with a full title and description, and
+edit them, instead of handing you text to paste.
+
+```bash
+# With Homebrew:
+brew install gh
+
+# Without Homebrew (Apple Silicon; use macOS_amd64 on an Intel Mac).
+# Latest version number: https://github.com/cli/cli/releases/latest
+V=2.100.0
+curl -sSLO "https://github.com/cli/cli/releases/download/v$V/gh_${V}_macOS_arm64.zip"
+unzip -q "gh_${V}_macOS_arm64.zip"
+mkdir -p ~/.local/bin && cp "gh_${V}_macOS_arm64/bin/gh" ~/.local/bin/   # ~/.local/bin must be on your PATH
+```
+
+Then log in once — it opens your browser, so you have to do this yourself:
+
+```bash
+gh auth login
+```
+
+Answers: `GitHub.com` → `HTTPS` → *Authenticate Git with your GitHub credentials?* `No` (keeps your
+existing `git push` setup) → `Login with a web browser`. Check with `gh auth status`.
+
+**Git token scope** — if `git push` uses a personal access token, it needs the `workflow` scope as
+well as `repo`, or GitHub rejects any push that touches `.github/workflows/`. Edit it at
+github.com/settings/tokens.
+
+**Vercel** — the deployed app needs `DATABASE_URL` in the Vercel project's environment variables
+(same value as your `.env`), or it can't reach the database.
