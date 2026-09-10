@@ -3,6 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { laborLineCost, materialLineCost } from "@/lib/cost";
+import { projectIdsOf, requireActionRole } from "@/lib/auth";
+
+// Server actions are reachable by a direct POST, not only through the screen,
+// so every one checks who is calling and what they're allowed to touch.
 
 /**
  * Today's date with the time stripped — DailyLog.logDate is a @db.Date and
@@ -15,23 +19,44 @@ function today(): Date {
   );
 }
 
+/** The logged-in technician, who must work on this project. */
+async function technicianOn(projectId: string) {
+  const profile = await requireActionRole(["technician"]);
+  if (!projectIdsOf(profile).includes(projectId)) {
+    throw new Error("Unauthorized");
+  }
+  return profile;
+}
+
 /**
  * The day's log, created on first use. Every add-action funnels through here
  * so the technician never has to "start" a day explicitly.
  */
-async function getOrCreateTodayLog(projectId: string) {
+async function getOrCreateTodayLog(projectId: string, technicianName: string) {
   const logDate = today();
 
-  return prisma.dailyLog.upsert({
+  const log = await prisma.dailyLog.upsert({
     where: { projectId_logDate: { projectId, logDate } },
     update: {},
-    create: {
-      projectId,
-      logDate,
-      // No users table in the pilot — the technician is a name, not an account.
-      technicianName: "Tekniku i kantierit",
-    },
+    create: { projectId, logDate, technicianName },
   });
+
+  if (log.status !== "draft") {
+    throw new Error("This day has already been submitted");
+  }
+  return log;
+}
+
+/** A day that's still editable, on a project the caller works on. */
+async function editableLog(dailyLogId: string) {
+  const log = await prisma.dailyLog.findUniqueOrThrow({
+    where: { id: dailyLogId },
+  });
+  await technicianOn(log.projectId);
+  if (log.status !== "draft") {
+    throw new Error("This day has already been submitted");
+  }
+  return log;
 }
 
 /** Re-sums the day from its saved lines, so the stored total can't drift. */
@@ -56,12 +81,16 @@ export async function addMaterial(input: {
   materialId: string;
   quantity: number;
 }) {
+  const profile = await technicianOn(input.projectId);
+  if (!(input.quantity > 0)) throw new Error("Quantity must be positive");
+
   const material = await prisma.material.findUniqueOrThrow({
     where: { id: input.materialId },
   });
+  if (material.projectId !== input.projectId) throw new Error("Unauthorized");
 
   const unitCost = Number(material.defaultCost);
-  const log = await getOrCreateTodayLog(input.projectId);
+  const log = await getOrCreateTodayLog(input.projectId, profile.name);
 
   await prisma.logMaterial.create({
     data: {
@@ -84,12 +113,18 @@ export async function addLabor(input: {
   workerCount: number;
   hoursWorked: number;
 }) {
+  const profile = await technicianOn(input.projectId);
+  if (!(input.workerCount > 0) || !(input.hoursWorked > 0)) {
+    throw new Error("Workers and hours must be positive");
+  }
+
   const role = await prisma.laborRole.findUniqueOrThrow({
     where: { id: input.laborRoleId },
   });
+  if (role.projectId !== input.projectId) throw new Error("Unauthorized");
 
   const hourlyRate = Number(role.baseHourlyRate);
-  const log = await getOrCreateTodayLog(input.projectId);
+  const log = await getOrCreateTodayLog(input.projectId, profile.name);
 
   await prisma.logLabor.create({
     data: {
@@ -111,19 +146,30 @@ export async function addLabor(input: {
 }
 
 export async function removeMaterial(id: string) {
-  const line = await prisma.logMaterial.delete({ where: { id } });
+  await requireActionRole(["technician"]);
+  const line = await prisma.logMaterial.findUniqueOrThrow({ where: { id } });
+  await editableLog(line.dailyLogId);
+
+  await prisma.logMaterial.delete({ where: { id } });
   await recalculateTotal(line.dailyLogId);
   revalidatePath("/");
 }
 
 export async function removeLabor(id: string) {
-  const line = await prisma.logLabor.delete({ where: { id } });
+  await requireActionRole(["technician"]);
+  const line = await prisma.logLabor.findUniqueOrThrow({ where: { id } });
+  await editableLog(line.dailyLogId);
+
+  await prisma.logLabor.delete({ where: { id } });
   await recalculateTotal(line.dailyLogId);
   revalidatePath("/");
 }
 
 /** draft → submitted. The engineer sees it from here (Phase 2). */
 export async function submitDay(dailyLogId: string) {
+  await requireActionRole(["technician"]);
+  await editableLog(dailyLogId);
+
   await prisma.dailyLog.update({
     where: { id: dailyLogId },
     data: { status: "submitted", submittedAt: new Date() },

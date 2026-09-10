@@ -1,5 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { sumLines } from "@/lib/cost";
+import { requireRole } from "@/lib/auth";
+import { labels } from "@/lib/labels";
+import { signOut } from "@/actions/auth";
 import { DailyLogScreen } from "./_components/DailyLogScreen";
 
 // The day's log changes as the technician works — never serve a cached copy.
@@ -20,22 +23,30 @@ function formatDate(date: Date): string {
 }
 
 export default async function TechnicianPage() {
-  // One project in the pilot, so there's nothing to pick — see
-  // docs/decisions/log.md.
-  const project = await prisma.project.findFirst({
-    where: { status: "active" },
-    include: {
-      materials: { orderBy: { name: "asc" } },
-      laborRoles: { orderBy: { name: "asc" } },
-    },
-  });
+  const profile = await requireRole(["technician"]);
+
+  // One project per technician in the pilot, so there's nothing to pick —
+  // see docs/decisions/log.md.
+  const projectId = profile.memberships[0]?.projectId;
+  const project = projectId
+    ? await prisma.project.findUnique({
+        where: { id: projectId },
+        include: {
+          materials: { orderBy: { name: "asc" } },
+          laborRoles: { orderBy: { name: "asc" } },
+        },
+      })
+    : null;
 
   if (!project) {
     return (
-      <main className="flex min-h-dvh flex-col items-center justify-center gap-2 p-8 text-center">
-        <p className="text-sm text-ink-muted">
-          Asnjë projekt aktiv. Ekzekuto <code>npm run db:seed</code>.
-        </p>
+      <main className="flex min-h-dvh flex-col items-center justify-center gap-4 p-8 text-center">
+        <p className="text-sm text-ink-muted">{labels.technician.noProject}</p>
+        <form action={signOut}>
+          <button type="submit" className="min-h-11 text-sm font-semibold text-steel">
+            {labels.common.logout}
+          </button>
+        </form>
       </main>
     );
   }

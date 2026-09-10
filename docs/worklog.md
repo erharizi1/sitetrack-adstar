@@ -199,3 +199,52 @@ app until the merge deployed. This way the branch can merge at any time with not
 
 **Worth knowing:** the database column is still called `engineerName` — only the code name
 changed.
+
+---
+
+## 2026-09-10 — Accounts and login by email link (`feature/login`)
+
+**Goal:** real people with real accounts: each role lands on its own screen, and no page or
+action works without the right role.
+
+**What changed:**
+- Two new tables: `Profile` (one per person who can log in — name, role, status; its id is their
+  Supabase Auth user id) and `ProjectMember` (which projects they work on). The migration
+  (`prisma/migrations/…_accounts/`) also turns on row-level security for every table.
+- The login flow from `docs/design/final-designs/login/`: `/login` (email, "Dërgo linkun"),
+  `/login/check` (the three steps, resend, change email) and `/login/expired`. Every email link
+  lands on `/auth/confirm`, which verifies it and sends the person to their screen: technician →
+  `/`, engineer and owner → `/dashboard`.
+- `proxy.ts` (Next.js 16's name for middleware) refreshes the session on every request and sends
+  anyone not logged in to `/login`.
+- Every page checks the role (`requireRole`) and every server action refuses callers without it
+  (`requireActionRole`). The daily-log actions also gained checks they were missing: a technician
+  can only touch his own project's data, and a submitted day can no longer be edited.
+- Each day's log now records the logged-in technician's name. The technician screen has a "Dil"
+  (log out) button; the engineer area has the header from the invite design (brand, "Paneli",
+  name, role, "Dil").
+- `prisma/seed.ts` creates the Owner's account (plus optional test accounts) — nobody is above the
+  Owner to invite them. `docs/email-templates/magic-link.html` is the login email for Supabase.
+
+**How it went:**
+- Built from Supabase's current docs and the installed package types rather than memory:
+  `getClaims()` (which verifies the token) instead of `getSession()`, and email links that carry a
+  `token_hash` verified on the server — so they work on any device, and work for invites, which
+  have no "asking" device for the default PKCE flow to rely on.
+- The login page never reveals whether an email has an account: it always goes on to "check your
+  email".
+- The migration was generated without a database connection (`prisma migrate diff` between the
+  old and new schema), since the sandbox can't reach Postgres.
+- Verified locally, logged out: `/` and `/dashboard` go to `/login`; the three screens render; a
+  missing or bad link lands on "expired"; a link that lands on the site root is forwarded to
+  `/auth/confirm`. A CI-style build with no Supabase variables compiles. **Not yet verified: a real
+  login** — that needs the setup below.
+
+**Open items / worth knowing:**
+- **One-time setup before login works:** keys, redirect URLs, link lifetime (24 hours), the email
+  template, `npx prisma migrate deploy`, and seeding the Owner — steps in `docs/README.md`
+  ("One-time tooling setup").
+- The "Dil" buttons aren't in the final designs — added because switching accounts needs them.
+  Worth a look in the next design pass.
+- Supabase's built-in email sender only sends a few emails an hour: fine for testing, not for real
+  use.

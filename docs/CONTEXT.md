@@ -109,14 +109,15 @@ We start basic and grow toward the vision. Rough phases (detail lives in `docs/B
 ---
  
  
-## 4. Data model (Prisma, 6 tables — pilot scope)
+## 4. Data model (Prisma, 8 tables — pilot scope)
 
 Source of truth: `prisma/schema.prisma` (read it for exact fields). In short:
 
 A **Project** has many **DailyLogs** (one per day). Each DailyLog holds the day's **LogMaterials**
 and **LogLabor** lines and rolls them into a total; the technician submits it and the engineer approves.
 **Material** and **LaborRole** are per-project preset catalogs the technician picks from instead of
-typing. No users table yet (names only for the pilot); money is always `Decimal`.
+typing. People log in with real accounts: a **Profile** (name, role, status — tied to their Supabase
+login) and **ProjectMember** (which projects they work on). Money is always `Decimal`.
  
 ---
  

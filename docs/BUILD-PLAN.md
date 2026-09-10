@@ -119,6 +119,9 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
    > works without a logged-in user of the right role, and record the logged-in technician on each
    > DailyLog instead of the fixed name. Seed one Owner account. Use Supabase's built-in email for
    > now."
+   **Built.** Before it works it needs a one-time setup — keys, redirect URLs, link lifetime, the
+   email template, `npx prisma migrate deploy`, and seeding the Owner: see "One-time tooling
+   setup" in `docs/README.md`.
 5. **`feature/team-invite`** — the team page from the final design: the project's people with
    their status (Aktiv / Në pritje / Çaktivizuar), resend on pending invites, deactivate and
    reactivate, and the add form beside the list (a bottom sheet on phone). Sending it invites the
