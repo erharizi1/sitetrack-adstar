@@ -26,6 +26,7 @@ session, so it already knows the above.
 | `docs/BUILD-PLAN.md` | What to build next, step by step | Starting a new feature |
 | `docs/decisions/` | Why we chose things (one file per decision) | To understand a past choice |
 | `docs/worklog.md` | The story of what got built and why | To catch up on what happened |
+| `docs/design/final-designs/` | The screen designs we decided on, one folder per feature | Before building a screen |
  
 ---
  

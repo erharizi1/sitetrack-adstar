@@ -25,6 +25,11 @@ The method is as much the point as the product. Core loop:
 - **Test on `develop`, promote to `main`.** A finished feature is tested live on `develop` — on
   the phone (engineer view) and the desktop (PM view) at once. When a version is solid, it's
   pushed to `main` → production, which is what people on the actual site see.
+- **Every design session ends in `docs/design/final-designs/` and the build plan — one PR per
+  design.** Explore options in a folder of their own under `docs/design/`. Once screens are chosen:
+  copy them into `docs/design/final-designs/<feature>/` with a short README, add the feature's
+  branch (with its paste-ready prompt) to `docs/BUILD-PLAN.md`, and open one PR per design for Eri
+  to merge. **Implementation starts only when Eri says so** — a design in the plan is not a go.
 
 We keep three layers of history, each answering a different question:
 

@@ -7,8 +7,8 @@ Pairs with `CONTEXT.md` (why/what) and `ARCHITECTURE.md` (how it's put together)
 Claude Code → review the diffs → run locally → commit + push → ask Claude Code to log it to
 `docs/worklog.md` → open a PR into `develop` → merge → delete the branch. One feature at a time.
  
-Where we are now: repo + Next.js scaffold exist, Prisma installed, context files in `docs/`,
-working on the `develop` branch. Next up is Phase 0.
+Where we are now: Phase 0 and Phase 1 are done and merged. The designs decided so far are in
+`docs/design/final-designs/`.
  
 ---
  
@@ -74,6 +74,9 @@ branches per step.
 
 **Dropped for the pilot:** a `feature/projects-list` engineer-facing picker screen — not needed
 while there's only one project. Revisit if/when one engineer needs to switch between several.
+
+**Done** — `feature/app-shell` (PR #3) and `feature/engineer-daily-log` (PR #4) are merged; the screen
+is live at `/`. Final design: `docs/design/final-designs/engineer-daily-log/`.
  
 ---
  
