@@ -115,3 +115,59 @@ settled (phone). Plan is written up and ready to execute — nothing implemented
   protection — worth checking the GitHub settings if PRs should be strictly required, even for
   the repo owner.
 - Next up: `feature/app-shell`, then `feature/engineer-daily-log-ui`.
+
+---
+
+## 2026-09-10 — First real code: app shell + the engineer's daily-log screen
+
+**Branches:** `feature/app-shell` (merged, PR #3), `feature/engineer-daily-log` (this PR). Phase 1
+of `BUILD-PLAN.md` is now both of its branches.
+
+**Goal:** turn the settled design (`docs/design/showcase/DayIdeaB.dc.html`) into a working screen
+the engineer can actually use — log materials and labor, see the day's cost, submit it.
+
+**`feature/app-shell`:**
+- Two route groups: `(engineer)` serves `/` (the engineer lands straight on today's log — no
+  project picker, per `docs/decisions/log.md`) and `(pm)` serves `/dashboard` (placeholder).
+- `lib/labels.ts` holds every user-facing string in Albanian, so wording can be corrected in one
+  place.
+- The blue palette from the design lives in `app/globals.css` as Tailwind theme tokens
+  (`bg-surface`, `text-ink-muted`, `bg-accent`, …).
+- Root layout: `lang="sq"`, create-next-app boilerplate and Geist font removed.
+
+**`feature/engineer-daily-log`:**
+- The screen (`app/(engineer)/_components/`): Materiale / Fuqi punëtore tabs, an add-flow per tab
+  (bottom sheet on phone, centred panel from `sm:` up), and a sticky bar that always shows both
+  subtotals plus the day's total — so the day reads as one thing even while one tab is open.
+- `lib/cost.ts` — all cost arithmetic and Lek formatting in one place.
+- `actions/daily-log.ts` — server actions to add/remove material and labor lines and submit the
+  day. The `DailyLog` row is created on the first add, so the engineer never has to "start" a
+  day; the stored total is re-summed from the saved lines after every change so it can't drift.
+- Submitting moves the day `draft` → `submitted`; after that it's read-only with a status badge.
+- `prisma/seed.ts` (`npm run db:seed`) — one project with 6 materials and 4 labor roles.
+  **Placeholder figures**, clearly marked; re-running it refreshes the catalogs rather than
+  duplicating them.
+- `npm run build` now runs `prisma generate` first — the generated client is gitignored and
+  Vercel only runs the build script, so without this the deploy would fail on a missing import.
+
+**How it went:**
+- The sandbox can't reach the database (same port block as Phase 0), so Eri ran the seed from his
+  own terminal — it succeeded.
+- Eri's first local run errored on the page's very first database query, with no reason in the
+  message (the shape a connection failure usually has). After confirming the seed had landed,
+  testing moved on; the cause wasn't pinned down.
+- Process correction: earlier I'd pushed several doc changes straight to `develop`. Rule from here
+  on: push feature branches only, Eri opens and merges the PR.
+
+**Open items / worth knowing:**
+- **Not yet verified end to end online.** Vercel needs `DATABASE_URL` set in its environment
+  variables for the deployed page to reach Supabase.
+- **Desktop layout deviates from the plan's note:** the add-flow is a centred panel on desktop,
+  not the persistent side panel from `MaterialLogWeb.dc.html`. Needs its own design pass.
+- **No authentication:** server actions are reachable by anyone who has the URL, and the engineer
+  is a fixed name (`engineerName`), not an account. Fine for a pilot demo; not before real use.
+- Overtime is supported in `lib/cost.ts` but not exposed in the labor add-flow yet.
+- The session pooler (port 5432) has a small connection limit; serverless functions on Vercel may
+  hit it under load — Supabase's transaction pooler is the usual fix if that shows up.
+- Real client data (project, material prices, labor rates) still pending from Moisi.
+- Next up per `BUILD-PLAN.md`: Phase 2, `feature/pm-dashboard`.
