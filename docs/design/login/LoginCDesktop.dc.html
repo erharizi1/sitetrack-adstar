@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <style>
+    :root {
+      --bg: #F1F4F8; --surface: #FFFFFF; --ink: #1F2937; --ink-muted: #6B7280;
+      --line: #E5E7EB; --accent: #2563EB; --accent-ink: #FFFFFF;
+      --steel: #1D4ED8; --steel-soft: #DBEAFE;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--steel); text-decoration: none; } a:hover { color: var(--accent); }
+  </style>
+</helmet>
+
+<div style="width:1280px; height:800px; display:flex; background:var(--bg);">
+
+  <div style="width:520px; background:var(--ink); color:#FFFFFF; display:flex; flex-direction:column; justify-content:space-between; padding:48px;">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <div style="width:40px; height:40px; border-radius:12px; background:var(--accent); display:flex; align-items:center; justify-content:center;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+      </div>
+      <div style="font-size:17px; font-weight:700;">SiteTrack</div>
+    </div>
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <div style="font-size:34px; font-weight:700; line-height:1.15; letter-spacing:-0.015em;">Kostot e kantierit,<br>çdo ditë.</div>
+      <div style="font-size:15px; line-height:1.55; color:#CBD5E1; max-width:360px;">Inxhinieri regjistron materialet dhe punën. Menaxheri shikon kostot dhe miraton ditën.</div>
+    </div>
+    <div style="font-size:12.5px; color:#94A3B8;">Ndjekja e kostove të ndërtimit</div>
+  </div>
+
+  <div style="flex:1; display:flex; align-items:center; justify-content:center;">
+    <div style="width:400px; display:flex; flex-direction:column; gap:24px;">
+      <div style="display:flex; flex-direction:column; gap:6px;">
+        <div style="font-size:26px; font-weight:700; letter-spacing:-0.01em;">Kush je?</div>
+        <div style="font-size:14.5px; color:var(--ink-muted);">Zgjidh emrin tënd dhe fut PIN-in.</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px;">
+        <div style="min-height:60px; display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--surface); border:1px solid var(--line); border-radius:12px;">
+          <div style="width:38px; height:38px; border-radius:99px; background:var(--line); display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;">AK</div>
+          <div style="flex:1; display:flex; flex-direction:column; gap:2px;">
+            <div style="font-size:15px; font-weight:600;">Agron Krasniqi</div>
+            <div style="font-size:12.5px; color:var(--ink-muted);">Inxhinier kantieri</div>
+          </div>
+        </div>
+        <div style="min-height:60px; display:flex; align-items:center; gap:12px; padding:10px 16px; background:var(--steel-soft); border:2px solid var(--accent); border-radius:12px;">
+          <div style="width:38px; height:38px; border-radius:99px; background:var(--accent); color:#FFFFFF; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:600;">EM</div>
+          <div style="flex:1; display:flex; flex-direction:column; gap:2px;">
+            <div style="font-size:15px; font-weight:600;">Elira Musaraj</div>
+            <div style="font-size:12.5px; color:var(--ink-muted);">Menaxhere projekti</div>
+          </div>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:7px;">
+        <div style="font-size:13px; font-weight:600;">PIN</div>
+        <div style="display:flex; gap:10px;">
+          <div style="width:60px; height:56px; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:22px;">•</div>
+          <div style="width:60px; height:56px; display:flex; align-items:center; justify-content:center; background:var(--surface); border:1px solid var(--line); border-radius:12px; font-size:22px;">•</div>
+          <div style="width:60px; height:56px; background:var(--surface); border:2px solid var(--accent); border-radius:12px;"></div>
+          <div style="width:60px; height:56px; background:var(--surface); border:1px solid var(--line); border-radius:12px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+</body>
+</html>

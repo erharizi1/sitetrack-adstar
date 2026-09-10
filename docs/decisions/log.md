@@ -37,3 +37,44 @@ sequence, not separate branches to review and merge one at a time.
 "looks wrong" bugs from "doesn't save" bugs). Reversed after finding it added review overhead
 without matching how Eri actually wants to check work — by running the finished, functional
 screen, not by reviewing intermediate steps separately.
+
+---
+
+## 2026-09-10 — Three roles: Owner, Engineer, Technician
+
+**Decision:** three kinds of user, each added only by the role above it:
+
+| Role | Albanian | Does what | Added by |
+|---|---|---|---|
+| Owner | Pronar | owns the company, sees everything | set up once by us |
+| Engineer | Inxhinier | responsible for a project | the Owner |
+| Technician | Teknik | on site, logs the day's costs | an Engineer |
+
+Nobody adds people at their own level. Whoever adds someone also picks their project(s), and can
+deactivate them later. Engineers may get more admin tasks later (e.g. managing materials).
+
+**Why:** Moisi saw the old names cause confusion in practice. What we called the "project manager"
+is the **Engineer** now; what we called the "site engineer" is the **Technician**.
+
+**Not done yet — rename pending:** the code and docs still use the old names. Until a dedicated
+rename pass, "engineer" in the code (`app/(engineer)/`, `labels.engineer`, `DailyLog.engineerName`)
+and in `CONTEXT.md` / `BUILD-PLAN.md` still means the **on-site person** — the opposite of the new
+meaning. Do that rename in one go, on its own branch, before building logins.
+
+---
+
+## 2026-09-10 — Login by invite link, no passwords
+
+**Decision:** the person above enters the new user's name and personal email; the new user gets an
+email, clicks the link, and is registered, logged in and taken to their own main screen. No
+password, no PIN or code, no Google/Microsoft sign-in. Logging in again later (new phone, logged
+out): type your email, get a fresh link. Expired links get their own "ask for a new link" screen.
+
+**Why:** simplest thing for someone on site — nothing to remember or type beyond an email — and it
+matches the hierarchy above, where every account is created by someone. Chosen over the three
+options on the login canvas (`docs/design/login/`: email + password, phone + SMS code, name + PIN).
+
+**What it brings with it:** real user accounts, roles and project assignments in the database —
+replacing the pilot's "names only, no users table" setup in `CONTEXT.md`. Supabase supports invite
+links and email login out of the box, but its built-in email sender is for testing only (very low
+sending limits), so real invites need a proper email service connected.
