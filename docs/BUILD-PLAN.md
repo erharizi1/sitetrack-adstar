@@ -87,8 +87,8 @@ Inxhinier / Teknik) — each added only by the role above, and everyone logs in 
 no password. See `docs/decisions/log.md` (2026-09-10). Everything after this — the Engineer's
 dashboard, approvals — needs to know who is logged in.
 
-Designs: `docs/design/final-designs/login/` (exploration and the options not picked:
-`docs/design/login/`).
+Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invite/`
+(exploration and the options not picked: `docs/design/login/`).
 
 3. **`feature/rename-roles`** — the code and docs still use the old names, and "engineer" in the
    code currently means the on-site person, the opposite of its new meaning. Rename everything in
@@ -117,6 +117,21 @@ Designs: `docs/design/final-designs/login/` (exploration and the options not pic
    > works without a logged-in user of the right role, and record the logged-in technician on each
    > DailyLog instead of the fixed name. Seed one Owner account. Use Supabase's built-in email for
    > now."
+5. **`feature/team-invite`** — the team page from the final design: the project's people with
+   their status (Aktiv / Në pritje / Çaktivizuar), resend on pending invites, deactivate and
+   reactivate, and the add form beside the list (a bottom sheet on phone). Sending it invites the
+   person by email with a Supabase invite link; the role comes from who is inviting (an engineer
+   adds technicians, the owner adds engineers — using this same page until the owner overview
+   exists) and the project is picked in the form. The email follows `InviteEmail.dc.html`. Only
+   the role directly above can add, resend or deactivate. Needs the proper email service in place
+   first — Supabase's built-in sender only allows a few emails an hour.
+   > "Read docs/decisions/log.md (2026-09-10) and docs/design/final-designs/invite/. Build the team
+   > page at (engineer)/team: the project's people with their status (Aktiv / Në pritje /
+   > Çaktivizuar), resend on pending invites, deactivate and reactivate on the rest, and an add form
+   > in a side panel (a bottom sheet on phone). Sending the form invites the person by email with a
+   > Supabase invite link; the role comes from who is inviting (engineer → technician, owner →
+   > engineer) and the project is picked in the form. Use InviteEmail.dc.html for the email
+   > template. Only the role directly above may add, resend or deactivate."
  
 ---
  
@@ -125,15 +140,15 @@ Designs: `docs/design/final-designs/login/` (exploration and the options not pic
 Goal: the PM sees where money is going against budget, across projects, and approves what the
 engineer submitted.
  
-5. **`feature/pm-dashboard`** — PM dashboard reading from the DB: budget vs actual, today's cost,
+6. **`feature/pm-dashboard`** — PM dashboard reading from the DB: budget vs actual, today's cost,
    list of daily logs with status. Desktop layout.
    > "Build (pm)/dashboard/page.tsx: read the project's daily logs, show budget vs actual, today's
    > cost, and a list of logs with status. Desktop layout."
-6. **`feature/pm-approve`** — PM approves/rejects a submitted log (status → approved/rejected,
+7. **`feature/pm-approve`** — PM approves/rejects a submitted log (status → approved/rejected,
    optional manager note, stamp `approvedAt`).
    > "Add approve and reject server actions on a DailyLog (set status, managerNotes, approvedAt) and
    > buttons on the dashboard."
-7. **`feature/budget-alerts`** — flag overruns: mark days/logs crossing a threshold of the daily or
+8. **`feature/budget-alerts`** — flag overruns: mark days/logs crossing a threshold of the daily or
    cumulative budget. The "know before it's too late" promise.
    > "Add budget-alert logic in lib/cost.ts that flags when a day's cost or the running total
    > crosses a configurable threshold, and surface the flag on the PM dashboard."
