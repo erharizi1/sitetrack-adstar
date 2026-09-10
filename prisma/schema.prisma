@@ -112,13 +112,14 @@ model LaborRole {
 // A person who can log in. The id is their Supabase Auth user id (auth.users.id).
 // Role and status live here — never in Supabase user_metadata, which users can edit.
 model Profile {
-  id          String   @id @db.Uuid
-  email       String   @unique
+  id          String    @id @db.Uuid
+  email       String    @unique
   name        String
   role        String // owner, engineer, technician
-  status      String   @default("invited") // invited, active, deactivated
-  invitedById String?  @db.Uuid
-  createdAt   DateTime @default(now())
+  status      String    @default("invited") // invited, active, deactivated
+  invitedById String?   @db.Uuid
+  invitedAt   DateTime? // when the latest invite was sent
+  createdAt   DateTime  @default(now())
 
   memberships ProjectMember[]
 }

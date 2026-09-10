@@ -1,8 +1,8 @@
-import Link from "next/link";
 import { signOut } from "@/actions/auth";
 import { Brand } from "@/components/Brand";
 import { requireRole } from "@/lib/auth";
 import { labels } from "@/lib/labels";
+import { EngineerNav } from "./_components/EngineerNav";
 
 function initials(name: string): string {
   return name
@@ -32,14 +32,7 @@ export default async function EngineerLayout({
       <header className="flex h-16 items-center justify-between gap-4 border-b border-line bg-surface px-5 sm:px-10">
         <div className="flex items-center gap-7">
           <Brand size="sm" />
-          <nav className="flex gap-1">
-            <Link
-              href="/dashboard"
-              className="rounded-lg bg-steel-soft px-3 py-2 text-sm font-semibold text-steel"
-            >
-              {labels.engineer.navDashboard}
-            </Link>
-          </nav>
+          <EngineerNav />
         </div>
         <div className="flex items-center gap-2.5">
           <div className="hidden flex-col items-end sm:flex">

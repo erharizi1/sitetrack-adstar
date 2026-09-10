@@ -176,6 +176,7 @@ erDiagram
         string  name
         string  role "owner/engineer/technician"
         string  status "invited/active/deactivated"
+        datetime invitedAt "latest invite sent"
     }
     ProjectMember {
         uuid    profileId FK

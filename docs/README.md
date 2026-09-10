@@ -42,6 +42,8 @@ session, so it already knows the above.
 - `app/login/`, `app/auth/confirm/` — logging in by email link.
 - `proxy.ts`, `lib/supabase/`, `lib/auth.ts` — login sessions, and who may see what. Every page
   and server action checks the person's role.
+- `app/(engineer)/team/`, `actions/team.ts` — the team page: inviting people, resending an invite,
+  deactivating and reactivating. Each role manages only the role directly below it.
 - `prisma/schema.prisma` — the data model (source of truth). `prisma/seed.ts` loads the pilot
   project and its material/labor catalogs (placeholder figures until the real ones arrive).
 - `app/generated/prisma/` — generated database client. Not in git; see setup below.
@@ -137,13 +139,15 @@ github.com/settings/tokens.
    and `http://localhost:3000/**`.
 3. **Link lifetime.** Authentication → Sign In / Providers → Email → Email OTP Expiration: `86400`
    (24 hours — what the screens and emails say).
-4. **Email template.** Authentication → Emails → Magic link: subject `Hyr në SiteTrack`, body =
-   the HTML in `docs/email-templates/magic-link.html`.
+4. **Email templates.** Authentication → Emails:
+   - Magic link — subject `Hyr në SiteTrack`, body = `docs/email-templates/magic-link.html`.
+   - Invite user — subject `{{ .Data.invitedBy }} të ftoi në SiteTrack`, body =
+     `docs/email-templates/invite.html`.
 5. **Database.** In your own terminal (Claude Code's sandbox can't reach it):
    `npx prisma migrate deploy` — creates the accounts tables and turns on row-level security.
 6. **The Owner's account** — nobody is above the Owner to invite them:
    `SEED_OWNER_EMAIL=you@example.com SEED_OWNER_NAME="Emri Mbiemri" npm run db:seed`.
    Optional test accounts: `SEED_ENGINEER_EMAIL`, `SEED_TECHNICIAN_EMAIL` (each with `_NAME`).
 
-Supabase's built-in email sender is for testing — it only sends a few emails an hour. For real use,
-connect an email service under Authentication → Emails → SMTP Settings.
+Supabase's built-in email sender is for testing — it only sends a few emails an hour, and invites
+use it too. For real use, connect an email service under Authentication → Emails → SMTP Settings.

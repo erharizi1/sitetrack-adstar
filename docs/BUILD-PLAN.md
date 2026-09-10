@@ -8,7 +8,8 @@ Claude Code → review the diffs → run locally → commit + push → ask Claud
 `docs/worklog.md` → open a PR into `develop` → merge → delete the branch. One feature at a time.
  
 Where we are now: Phase 0 and Phase 1 are done and merged. The designs decided so far are in
-`docs/design/final-designs/`. Next up: Phase 1.5, accounts.
+`docs/design/final-designs/`. Phase 1.5 (accounts: rename, login, team invites) is built and in
+review; after it, Phase 2.
  
 ---
  
@@ -137,6 +138,8 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
    > Supabase invite link; the role comes from who is inviting (engineer → technician, owner →
    > engineer) and the project is picked in the form. Use InviteEmail.dc.html for the email
    > template. Only the role directly above may add, resend or deactivate."
+   **Built.** Needs the Invite email template set in Supabase (and, for real use, an email
+   service) — see "One-time tooling setup" in `docs/README.md`.
  
 ---
  
