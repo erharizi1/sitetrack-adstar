@@ -19,12 +19,12 @@ Three problems come out of it:
   pulled together, the moment to act has passed.
 - **No overview across projects.** The firm runs several projects at once, each at a different
   stage, with no single place to see how any of them is doing.
-- **The site engineer loses time.** Compiling costs by hand daily is slow and eats into the
+- **The technician on site loses time.** Compiling costs by hand daily is slow and eats into the
   hours he should spend running the site.
 
 The main problem we're solving first is cost tracking. We're still figuring out how this really
 works on the ground, so this project is an attempt to develop a *mechanism* for keeping track of
-cost — not a finished answer. We're starting with the simplest version: the site engineer logs
+cost — not a finished answer. We're starting with the simplest version: the technician logs
 everything manually. That's a deliberate starting point, and it may change as we learn what
 actually fits the reality of the site.
 
@@ -32,16 +32,18 @@ actually fits the reality of the site.
 
 ## Product vision
 
-Three people use the product, each with their own view:
+Three people use the product, each with their own view. In the app they're called **Owner /
+Engineer / Technician** (Pronar / Inxhinier / Teknik) — see `docs/decisions/log.md`:
 
-- **Site engineer — the daily tool.** Easy to interact with, built around his real needs on
+- **Technician (on site) — the daily tool.** Easy to interact with, built around his real needs on
   site. It starts with logging materials, but the bigger picture is tracking *all* the cost
   that happens on the ground: multiple and variable cost types, invoices, and so on. He can
   also report beyond cost — flag issues or blockages as they come up (potentially by voice),
   so nothing that happens on site stays invisible.
-- **Project manager — the dashboard.** Everything the engineer reports flows here. A PM may
+- **Engineer (responsible for a project) — the dashboard.** Everything the technician reports
+  flows here. An engineer may
   run several projects at once and needs to see each at a glance — not just cost, but open
-  issues and blockages too. When something happens on a site, the PM knows.
+  issues and blockages too. When something happens on a site, the engineer knows.
 - **Owner (the dad) — the overview.** A high-level picture across all projects, informed by
   what the app surfaces, with the ability to leave comments.
 
@@ -55,14 +57,14 @@ it over time. Nothing here is the first build; it's the direction the first buil
 ## Tools used
 
 - **Next.js 15 + TypeScript** — the framework the whole app is built in. One codebase serves
-  both the engineer's phone view and the PM's desktop view. TypeScript catches mistakes as you type.
+  both the technician's phone view and the engineer's desktop view. TypeScript catches mistakes as you type.
 - **Tailwind CSS + shadcn/ui** — how the app is styled. Tailwind for layout, shadcn for
   ready-made components (buttons, forms, cards) so we don't build them from scratch.
 - **Supabase** — the cloud database (PostgreSQL). Where all logged cost data lives. Hosted, so
   there's no server to manage. Region: Frankfurt, closest to Albania.
 - **Prisma** — the bridge between the app and the database. We describe the tables once in
   `schema.prisma`, and Prisma handles reading/writing them with type safety.
-- **Zod + React Hook Form** — handle the forms the engineer fills in and validate the input
+- **Zod + React Hook Form** — handle the forms the technician fills in and validate the input
   (e.g. a quantity must be a positive number) before it's saved.
 - **GitHub** — stores the code and all branches. The single source of truth for the project.
 - **Vercel** — where the app runs live on the internet. Watches GitHub and auto-deploys: push
@@ -97,10 +99,10 @@ We start basic and grow toward the vision. Rough phases (detail lives in `docs/B
   `main`/production), the branch model, and CI/CD — so development runs smoothly. This phase also
   sets how we build: one feature = one branch, tested live on phone + desktop, promoted to
   production when solid.
-- **Phase 1 — Site engineer daily tool.** The engineer's screen: manual material logging → running
+- **Phase 1 — Technician daily tool.** The technician's screen: manual material logging → running
   cost → submit.
-- **Phase 2 — PM dashboard.** Reported data flows to the PM: cost and budget-vs-actual per project,
-  plus open issues and blockages across the several projects a PM runs.
+- **Phase 2 — Engineer dashboard.** Reported data flows to the engineer: cost and budget-vs-actual per project,
+  plus open issues and blockages across the several projects an engineer runs.
 - **Phase 3 — Owner overview.** High-level cross-project picture, with the ability to comment.
 - **Phase 4 — AI layer + richer capture.** The always-on assistant every user can talk to; broader
   cost capture beyond materials (variable costs, invoices, voice-reported issues).
@@ -112,8 +114,8 @@ We start basic and grow toward the vision. Rough phases (detail lives in `docs/B
 Source of truth: `prisma/schema.prisma` (read it for exact fields). In short:
 
 A **Project** has many **DailyLogs** (one per day). Each DailyLog holds the day's **LogMaterials**
-and **LogLabor** lines and rolls them into a total; the engineer submits it and the PM approves.
-**Material** and **LaborRole** are per-project preset catalogs the engineer picks from instead of
+and **LogLabor** lines and rolls them into a total; the technician submits it and the engineer approves.
+**Material** and **LaborRole** are per-project preset catalogs the technician picks from instead of
 typing. No users table yet (names only for the pilot); money is always `Decimal`.
  
 ---

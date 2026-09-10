@@ -10,10 +10,10 @@ export const labels = {
     name: "SiteTrack",
   },
   nav: {
+    technician: "Tekniku",
     engineer: "Inxhinieri",
-    pm: "Menaxheri",
   },
-  engineer: {
+  technician: {
     title: "Ditari i sotëm",
     tabs: {
       materials: "Materiale",
@@ -26,7 +26,7 @@ export const labels = {
     dayTotal: "Kosto e ditës",
     submit: "Paraqit ditën",
     submitting: "Duke paraqitur…",
-    submitHint: "Do t’i dërgohet menaxherit të projektit për miratim",
+    submitHint: "Do t’i dërgohet inxhinierit për miratim",
     emptyMaterials: "Asnjë material i regjistruar sot",
     emptyLabor: "Asnjë punëtor i regjistruar sot",
     otherTabHint: "kalo te skeda tjetër për t’i parë",
@@ -46,8 +46,8 @@ export const labels = {
       rejected: "Refuzuar",
     },
   },
-  pm: {
-    title: "Paneli i menaxherit",
+  engineer: {
+    title: "Paneli i inxhinierit",
   },
   common: {
     currency: "L",

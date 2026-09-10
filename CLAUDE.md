@@ -12,7 +12,7 @@ The method is as much the point as the product. Core loop:
   review it, merge back. Never build several features at once, never code on `develop` or `main`
   directly.
 - **Steer, don't type.** Describe the feature to Claude Code — often out loud — from the UI or
-  intent ("set up the site engineer screen"). It proposes the code; Eri reviews every change
+  intent ("set up the technician's screen"). It proposes the code; Eri reviews every change
   before it lands. We move by directing the LLM, not writing every line.
 - **One branch per whole screen; UI first, then wiring, inside it — review by running, not
   reading.** Once a screen's design is settled, build the UI with hardcoded fake data first (so
@@ -23,7 +23,7 @@ The method is as much the point as the product. Core loop:
   through the UI, not by reading the diff line by line. Explaining code in plain terms is still
   welcome when something's worth knowing; it's just never the approval gate.
 - **Test on `develop`, promote to `main`.** A finished feature is tested live on `develop` — on
-  the phone (engineer view) and the desktop (PM view) at once. When a version is solid, it's
+  the phone (technician view) and the desktop (engineer view) at once. When a version is solid, it's
   pushed to `main` → production, which is what people on the actual site see.
 - **Every design session ends in `docs/design/final-designs/` and the build plan — one PR per
   design.** Explore options in a folder of their own under `docs/design/`. Once screens are chosen:

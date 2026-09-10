@@ -17,7 +17,7 @@ function today(): Date {
 
 /**
  * The day's log, created on first use. Every add-action funnels through here
- * so the engineer never has to "start" a day explicitly.
+ * so the technician never has to "start" a day explicitly.
  */
 async function getOrCreateTodayLog(projectId: string) {
   const logDate = today();
@@ -28,8 +28,8 @@ async function getOrCreateTodayLog(projectId: string) {
     create: {
       projectId,
       logDate,
-      // No users table in the pilot — the engineer is a name, not an account.
-      engineerName: "Inxhinieri i kantierit",
+      // No users table in the pilot — the technician is a name, not an account.
+      technicianName: "Tekniku i kantierit",
     },
   });
 }
@@ -122,7 +122,7 @@ export async function removeLabor(id: string) {
   revalidatePath("/");
 }
 
-/** draft → submitted. The PM sees it from here (Phase 2). */
+/** draft → submitted. The engineer sees it from here (Phase 2). */
 export async function submitDay(dailyLogId: string) {
   await prisma.dailyLog.update({
     where: { id: dailyLogId },

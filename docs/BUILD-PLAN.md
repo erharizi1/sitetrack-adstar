@@ -31,9 +31,9 @@ Details and diagrams for all of this live in `ARCHITECTURE.md`.
  
 ---
  
-## Phase 1 — Site engineer daily tool
+## Phase 1 — Technician daily tool
  
-Goal: the engineer opens the app and lands directly on **today's log** for the one active
+Goal: the technician opens the app and lands directly on **today's log** for the one active
 project — no project picker, since the pilot is one project at a time. Materials and labor are
 tabs on the same screen, with a shared bar showing both subtotals and the day's total, and a
 submit button. Persisted. This is the heart of the product.
@@ -72,8 +72,8 @@ branches per step.
    > Prisma as they're added, and a submit action setting status to submitted and stamping
    > submittedAt."
 
-**Dropped for the pilot:** a `feature/projects-list` engineer-facing picker screen — not needed
-while there's only one project. Revisit if/when one engineer needs to switch between several.
+**Dropped for the pilot:** a `feature/projects-list` technician-facing picker screen — not needed
+while there's only one project. Revisit if/when one technician needs to switch between several.
 
 **Done** — `feature/app-shell` (PR #3) and `feature/engineer-daily-log` (PR #4) are merged; the screen
 is live at `/`. Final design: `docs/design/final-designs/engineer-daily-log/`.
@@ -94,12 +94,14 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
    code currently means the on-site person, the opposite of its new meaning. Rename everything in
    one go before any auth work, with no change in behaviour: route group `(engineer)` →
    `(technician)` and `(pm)` → `(engineer)` (URLs stay `/` and `/dashboard`), `labels.engineer` →
-   `labels.technician`, `DailyLog.engineerName` → `technicianName` (a Prisma migration), and the
+   `labels.technician`, `DailyLog.engineerName` → `technicianName` (mapped onto the existing column
+   with `@map`, so no database migration), and the
    wording in `CONTEXT.md`, `ARCHITECTURE.md` and this file.
    > "Read docs/decisions/log.md (2026-09-10, three roles). Rename the roles across the code and
    > docs: the on-site person is now the Technician, the project lead is the Engineer. Rename
    > app/(engineer) to app/(technician) and app/(pm) to app/(engineer), labels.engineer to
-   > labels.technician, and DailyLog.engineerName to technicianName with a Prisma migration. Update
+   > labels.technician, and DailyLog.engineerName to technicianName (keep the column via @map, no
+   > migration). Update
    > CONTEXT.md, ARCHITECTURE.md and BUILD-PLAN.md to the new names. No behaviour changes."
 4. **`feature/login`** — accounts and login by emailed link: a profile table tied to Supabase Auth,
    holding each person's name, role and project(s); the three login screens from the final design;
@@ -135,25 +137,25 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
  
 ---
  
-## Phase 2 — PM dashboard
+## Phase 2 — Engineer dashboard
  
-Goal: the PM sees where money is going against budget, across projects, and approves what the
-engineer submitted.
+Goal: the engineer sees where money is going against budget, across projects, and approves what
+the technician submitted.
  
-6. **`feature/pm-dashboard`** — PM dashboard reading from the DB: budget vs actual, today's cost,
+6. **`feature/engineer-dashboard`** — the engineer's dashboard, reading from the DB: budget vs actual, today's cost,
    list of daily logs with status. Desktop layout.
-   > "Build (pm)/dashboard/page.tsx: read the project's daily logs, show budget vs actual, today's
+   > "Build (engineer)/dashboard/page.tsx: read the project's daily logs, show budget vs actual, today's
    > cost, and a list of logs with status. Desktop layout."
-7. **`feature/pm-approve`** — PM approves/rejects a submitted log (status → approved/rejected,
+7. **`feature/engineer-approve`** — the engineer approves/rejects a submitted log (status → approved/rejected,
    optional manager note, stamp `approvedAt`).
    > "Add approve and reject server actions on a DailyLog (set status, managerNotes, approvedAt) and
    > buttons on the dashboard."
 8. **`feature/budget-alerts`** — flag overruns: mark days/logs crossing a threshold of the daily or
    cumulative budget. The "know before it's too late" promise.
    > "Add budget-alert logic in lib/cost.ts that flags when a day's cost or the running total
-   > crosses a configurable threshold, and surface the flag on the PM dashboard."
-**→ Working pilot reached here.** Engineer logs, PM sees + approves + gets warned. Put it in front
-of the real engineer for the 2-week "uses it daily without complaint" test.
+   > crosses a configurable threshold, and surface the flag on the engineer dashboard."
+**→ Working pilot reached here.** Technician logs, engineer sees + approves + gets warned. Put it in front
+of the real technician for the 2-week "uses it daily without complaint" test.
  
 ---
  
@@ -171,10 +173,10 @@ The direction, not near-term. The always-on assistant every user can talk to; ca
 material entry (variable costs, invoices, receipt photos, voice-reported issues + blockages). Also
 the polish that makes it stick: `feature/photo-upload` (receipt photos via Supabase Storage — also
 the first step toward capture), `feature/offline` (service worker + IndexedDB for poor signal),
-`feature/realtime` (live PM dashboard).
+`feature/realtime` (live engineer dashboard).
  
 **Open decision (Phase 4):** manual-first vs. capture-first. The pilot proves the manual loop; decide
-consciously whether/how auto-capture replaces typing once you've watched the real engineer use it.
+consciously whether/how auto-capture replaces typing once you've watched the real technician use it.
 The 6-table schema supports both, so this isn't blocked by anything built earlier.
  
 ---

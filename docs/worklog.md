@@ -171,3 +171,31 @@ the engineer can actually use — log materials and labor, see the day's cost, s
   hit it under load — Supabase's transaction pooler is the usual fix if that shows up.
 - Real client data (project, material prices, labor rates) still pending from Moisi.
 - Next up per `BUILD-PLAN.md`: Phase 2, `feature/pm-dashboard`.
+
+---
+
+## 2026-09-10 — Roles renamed in code and docs (`feature/rename-roles`)
+
+**Goal:** make the code say what the team now says — Owner / Engineer / Technician — before
+building logins, so "engineer" never means two different people at once.
+
+**What changed:**
+- Route groups: `app/(engineer)/` → `app/(technician)/` (the on-site screen, still at `/`) and
+  `app/(pm)/` → `app/(engineer)/` (the dashboard, still at `/dashboard`). No URL changed.
+- `lib/labels.ts`: `labels.engineer` → `labels.technician`, `labels.pm` → `labels.engineer`; the
+  nav labels are now "Tekniku" / "Inxhinieri", and the submit hint says the day goes to the
+  engineer ("inxhinierit").
+- `DailyLog.engineerName` → `technicianName` in code, mapped onto the existing `engineerName`
+  column with `@map`. The placeholder name on new logs is now "Tekniku i kantierit" — replaced by
+  the real logged-in name in `feature/login`.
+- Docs: `CLAUDE.md`, `CONTEXT.md` (with a note on the three role names), `ARCHITECTURE.md` (the
+  diagram), `BUILD-PLAN.md` (Phase 1/2 wording; the future branches are now
+  `feature/engineer-dashboard` and `feature/engineer-approve`), `docs/README.md`. History — the
+  worklog and past design explorations — left as written.
+
+**How it went:** lint and build clean. Used `@map` instead of the migration the plan first
+described: the dev and live app share one database, so a column rename would have broken the live
+app until the merge deployed. This way the branch can merge at any time with nothing to run.
+
+**Worth knowing:** the database column is still called `engineerName` — only the code name
+changed.

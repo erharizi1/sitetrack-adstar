@@ -32,9 +32,9 @@ session, so it already knows the above.
  
 ## Where the code lives
  
-- `app/(engineer)/` — the site engineer's screen (mobile-first), served at `/`. Its pieces are in
-  `app/(engineer)/_components/`.
-- `app/(pm)/` — the project manager's dashboard (desktop), served at `/dashboard`.
+- `app/(technician)/` — the technician's screen (mobile-first), served at `/`. Its pieces are in
+  `app/(technician)/_components/`.
+- `app/(engineer)/` — the engineer's dashboard (desktop), served at `/dashboard`.
 - `lib/cost.ts` — **all** cost calculation. One place, on purpose.
 - `lib/labels.ts` — Albanian UI strings. No hardcoded text in components.
 - `lib/prisma.ts` — the database client.
@@ -78,7 +78,7 @@ Then start the app:
 
 ```bash
 npm run db:seed             # only if the database is empty — loads the pilot project
-npm run dev                 # http://localhost:3000 (engineer) and /dashboard (PM)
+npm run dev                 # http://localhost:3000 (technician) and /dashboard (engineer)
 ```
 
 The shared Supabase database already has the tables. Only if you point at a fresh database, create

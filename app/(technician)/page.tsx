@@ -2,7 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { sumLines } from "@/lib/cost";
 import { DailyLogScreen } from "./_components/DailyLogScreen";
 
-// The day's log changes as the engineer works — never serve a cached copy.
+// The day's log changes as the technician works — never serve a cached copy.
 export const dynamic = "force-dynamic";
 
 function todayUtc(): Date {
@@ -19,7 +19,7 @@ function formatDate(date: Date): string {
   }).format(date);
 }
 
-export default async function EngineerPage() {
+export default async function TechnicianPage() {
   // One project in the pilot, so there's nothing to pick — see
   // docs/decisions/log.md.
   const project = await prisma.project.findFirst({

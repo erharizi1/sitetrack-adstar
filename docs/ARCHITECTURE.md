@@ -28,8 +28,8 @@ flowchart LR
  
     supabase[(Supabase · PostgreSQL<br/>Frankfurt)]
  
-    engineer[Site engineer · phone]
-    pm[Project manager · desktop]
+    technician[Technician · phone]
+    engineer[Engineer · desktop]
  
     vscode -->|push| feat
     dev -->|auto-deploy| preview
@@ -37,8 +37,8 @@ flowchart LR
     vscode -.->|local dev| supabase
     preview --> supabase
     prod --> supabase
+    technician --> prod
     engineer --> prod
-    pm --> prod
 ```
  
 - **GitHub** holds the code. Work flows `feature/*` → `develop` → `main`.
@@ -55,7 +55,7 @@ flowchart LR
 | Production  | `main`    | Vercel production URL| Real users on the site   |
  
 **Current state:** one Supabase project serves everything for now. Split into a separate
-production database later — only when we're about to put it in front of the real engineer.
+production database later — only when we're about to put it in front of the real technician.
  
 ---
  
@@ -129,7 +129,7 @@ erDiagram
         string  id PK
         string  projectId FK
         date    logDate
-        string  engineerName
+        string  technicianName "column: engineerName"
         decimal totalCost
         string  status "draft/submitted/approved/rejected"
     }
@@ -171,6 +171,6 @@ erDiagram
  
 Notes:
 - One **DailyLog** per project per day (`@@unique([projectId, logDate])`).
-- **Material** and **LaborRole** are per-project catalogs the engineer picks from instead of typing.
+- **Material** and **LaborRole** are per-project catalogs the technician picks from instead of typing.
 - Money is always `Decimal`, never float. Cascade deletes from `Project` down to its logs/catalogs.
 - No `users` table yet — names only for the pilot.

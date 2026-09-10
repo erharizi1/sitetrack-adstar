@@ -28,20 +28,20 @@ model Project {
   laborRoles LaborRole[]
 }
 
-// One day's work on one project. Engineer submits, PM approves.
+// One day's work on one project. Technician submits, engineer approves.
 model DailyLog {
-  id           String    @id @default(cuid())
-  projectId    String
-  logDate      DateTime  @db.Date
-  engineerName String
-  gpsLat       Decimal?  @db.Decimal(10, 8)
-  gpsLng       Decimal?  @db.Decimal(11, 8)
-  totalCost    Decimal   @default(0) @db.Decimal(15, 2)
-  status       String    @default("draft") // draft, submitted, approved, rejected
-  managerNotes String?
-  submittedAt  DateTime?
-  approvedAt   DateTime?
-  createdAt    DateTime  @default(now())
+  id             String    @id @default(cuid())
+  projectId      String
+  logDate        DateTime  @db.Date
+  technicianName String    @map("engineerName") // column keeps its old name, so no migration
+  gpsLat         Decimal?  @db.Decimal(10, 8)
+  gpsLng         Decimal?  @db.Decimal(11, 8)
+  totalCost      Decimal   @default(0) @db.Decimal(15, 2)
+  status         String    @default("draft") // draft, submitted, approved, rejected
+  managerNotes   String?
+  submittedAt    DateTime?
+  approvedAt     DateTime?
+  createdAt      DateTime  @default(now())
 
   project   Project       @relation(fields: [projectId], references: [id], onDelete: Cascade)
   materials LogMaterial[]
@@ -82,7 +82,7 @@ model LogLabor {
   dailyLog DailyLog @relation(fields: [dailyLogId], references: [id], onDelete: Cascade)
 }
 
-// Preset catalog of materials for a project (engineer picks, doesn't type)
+// Preset catalog of materials for a project (technician picks, doesn't type)
 model Material {
   id          String   @id @default(cuid())
   projectId   String
@@ -100,7 +100,7 @@ model LaborRole {
   id                 String   @id @default(cuid())
   projectId          String
   name               String
-  skillLevel         Int      // 1, 2, 3
+  skillLevel         Int // 1, 2, 3
   baseHourlyRate     Decimal  @db.Decimal(8, 2)
   overtimeMultiplier Decimal  @default(1.5)
   createdAt          DateTime @default(now())
