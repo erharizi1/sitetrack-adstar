@@ -289,3 +289,43 @@ technicians — by email, with no passwords.
 - The owner uses this same page (to add engineers) until the owner overview exists.
 - Invites use Supabase's built-in email sender — a few per hour. Connect a real email service
   before inviting the actual team.
+
+---
+
+## 2026-09-11 — The app sends its own invite email (`feature/invite-email`)
+
+**Goal:** make invites work. During the one-time setup, every invite arrived as Supabase's English
+default email, and its link landed on "Ky link ka skaduar" — so the invited person never became
+active.
+
+**What we found on the way (the setup, in order):**
+- New free Supabase projects (since 2026-06-03) lock the email templates while using Supabase's
+  built-in sender, which also only emails the project's own team. So we connected a Gmail account
+  over SMTP first — the first attempt failed with Gmail's `535 Username and Password not accepted`
+  until an app password was used.
+- With that, login by emailed link worked end to end: the Owner logged in and landed on /dashboard.
+- Invites still came in English: the saved "Invite user" template was never applied, though the
+  Magic link template on the same page was. Supabase falls back to its default silently, so we
+  couldn't see why — and stopped depending on it.
+
+**What changed:**
+- `actions/team.ts`: invites (and "Dërgo sërish") now call Supabase's `generateLink`, which creates
+  the login and the secret link but sends nothing. The app builds the `/auth/confirm` link from it
+  and emails the invite itself; if the email fails, the new login is deleted again so nobody is
+  left with an account they were never told about.
+- `lib/invite-email.ts`: the invite email from `InviteEmail.dc.html`, in Albanian, with names and
+  the project escaped (they're typed by people) and a plain-text copy.
+- `lib/email.ts`: sends through the same Gmail account with `nodemailer` (pinned at 10.0.7), from
+  `SMTP_USER` / `SMTP_PASSWORD`; host and port default to Gmail.
+- `docs/email-templates/invite.html` removed — the email lives in code now. README setup,
+  `docs/learning/` notes and this plan updated to match.
+
+**How it went:**
+- Verified: lint, build, and the email rendered with sample values (escaping, link, plain text).
+  **Not yet verified: a real invite arriving** — that needs `SMTP_USER` / `SMTP_PASSWORD` in Vercel
+  (done) and this branch deployed.
+
+**Open items / worth knowing:**
+- Login links still go through Supabase's Magic link template; only invites are ours.
+- Emails from a personal Gmail can land in spam — a sender on the firm's own domain before the
+  real team starts.

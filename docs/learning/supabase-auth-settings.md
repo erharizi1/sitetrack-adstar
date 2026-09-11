@@ -20,12 +20,14 @@ someone could make a link that sends a person's login to their own website.
 
 *Authentication → Emails → Templates*
 
-- **Magic link:** the login email. **Invite user:** the invite email.
-- Our versions live in `docs/email-templates/`. They're in Albanian and match the design, and,
-  most importantly, they build the `token_hash` link our app understands (see
+- **Magic link:** the login email, the one template we use. Ours is
+  `docs/email-templates/magic-link.html`: in Albanian, matching the design, and, most
+  importantly, building the `token_hash` link our app understands (see
   [Login by email link](magic-link-login.md)).
-- Templates fill in placeholders like `{{ .TokenHash }}` (the secret) and `{{ .Data.firstName }}`
-  (details the app attached to the invite).
+- **Invite user:** not used. Supabase kept sending its English default for invites no matter
+  what we saved, so the app sends the invite email itself (see [SMTP](smtp.md)).
+- Templates fill in placeholders like `{{ .TokenHash }}` (the secret) and `{{ .RedirectTo }}`
+  (the address the link goes back to).
 - On new free projects the templates are locked until you connect your own [SMTP](smtp.md).
   That's why we set up Gmail first.
 

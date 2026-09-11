@@ -139,15 +139,23 @@ github.com/settings/tokens.
    and `http://localhost:3000/**`.
 3. **Link lifetime.** Authentication → Sign In / Providers → Email → Email OTP Expiration: `86400`
    (24 hours — what the screens and emails say).
-4. **Email templates.** Authentication → Emails:
-   - Magic link — subject `Hyr në SiteTrack`, body = `docs/email-templates/magic-link.html`.
-   - Invite user — subject `{{ .Data.invitedBy }} të ftoi në SiteTrack`, body =
-     `docs/email-templates/invite.html`.
+4. **Email — the sender first, then the template.** On new free projects Supabase locks its
+   templates until you replace its built-in sender (which also only emails the project's own team).
+   - Sender: a Gmail account with an app password (https://myaccount.google.com/apppasswords —
+     needs 2-Step Verification). In Supabase, Authentication → Emails → SMTP Settings
+     (https://supabase.com/dashboard/project/dxeissvornoodlxigzsa/auth/smtp): host
+     `smtp.gmail.com`, port `587`, username and sender email = the Gmail address, password = the
+     app password.
+   - The same two go in `.env` and in Vercel
+     (https://vercel.com/sitetrack-adstar/sitetrack-adstar/settings/environment-variables) as
+     `SMTP_USER` and `SMTP_PASSWORD` — the app sends the invite emails itself. Redeploy after.
+   - Magic link template — subject `Hyr në SiteTrack`, body = `docs/email-templates/magic-link.html`.
+     (The "Invite user" template isn't used.)
 5. **Database.** In your own terminal (Claude Code's sandbox can't reach it):
    `npx prisma migrate deploy` — creates the accounts tables and turns on row-level security.
 6. **The Owner's account** — nobody is above the Owner to invite them:
    `SEED_OWNER_EMAIL=you@example.com SEED_OWNER_NAME="Emri Mbiemri" npm run db:seed`.
    Optional test accounts: `SEED_ENGINEER_EMAIL`, `SEED_TECHNICIAN_EMAIL` (each with `_NAME`).
 
-Supabase's built-in email sender is for testing — it only sends a few emails an hour, and invites
-use it too. For real use, connect an email service under Authentication → Emails → SMTP Settings.
+Emails from a personal Gmail can land in spam. Before the real team uses the app, a sender on the
+firm's own domain (e.g. Brevo or Resend) is the better choice — same settings, different values.

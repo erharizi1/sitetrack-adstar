@@ -6,12 +6,17 @@ every time you press Send.
 
 ## Where it shows up for us
 
-Our login and invites are emails, so the app needs a post office:
+Our login and invites are emails, so we need a post office. One Gmail account (with an app
+password) delivers both, handed two different ways:
 
-- **Supabase** writes the email: which template, and the secret link inside it.
-- **The SMTP server** delivers it. We use a Gmail account, set up with an app password.
+- **Login links:** Supabase writes the email (its Magic link template, with the secret link) and
+  hands it to Gmail. Set up in Supabase → Authentication → Emails → SMTP Settings.
+- **Invites:** our app writes the email itself (`lib/invite-email.ts`) and hands it to Gmail
+  (`lib/email.ts`); Supabase only makes the secret link. Set up in Vercel as `SMTP_USER` and
+  `SMTP_PASSWORD`. Why: Supabase kept sending its English default for invites, whatever template
+  we saved, so the app took that one email over.
 
-To connect a post office, Supabase needs five things: host (`smtp.gmail.com`), port (`587`),
+Connecting to a post office always takes the same things: host (`smtp.gmail.com`), port (`587`),
 username, password, and the sender address and name.
 
 ## Why we couldn't use Supabase's built-in one
