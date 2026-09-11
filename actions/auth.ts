@@ -1,17 +1,11 @@
 "use server";
 
-import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
+import { siteOrigin } from "@/lib/site";
 import { createClient } from "@/lib/supabase/server";
 
 const emailSchema = z.string().trim().toLowerCase().pipe(z.email());
-
-/** This site's own address, so email links come back here (local or live). */
-async function siteOrigin(): Promise<string> {
-  const h = await headers();
-  return h.get("origin") ?? `https://${h.get("host")}`;
-}
 
 /**
  * Emails a login link. Always goes on to "check your email", whether or not
