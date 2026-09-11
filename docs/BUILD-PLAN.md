@@ -138,8 +138,20 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
    > Supabase invite link; the role comes from who is inviting (engineer → technician, owner →
    > engineer) and the project is picked in the form. Use InviteEmail.dc.html for the email
    > template. Only the role directly above may add, resend or deactivate."
-   **Built.** Needs the Invite email template set in Supabase (and, for real use, an email
-   service) — see "One-time tooling setup" in `docs/README.md`.
+   **Built.** The invite email is now sent by the app itself (5a) — see "One-time tooling setup"
+   in `docs/README.md`.
+
+5a. **`feature/invite-email`** — found during the setup: Supabase kept sending its English default
+   invite email whatever template was saved, and that email's link lands on "link expired". So the
+   app sends the invite itself: Supabase's `generateLink` creates the login and the secret link
+   without emailing, and the app emails our Albanian invite (the design's `InviteEmail.dc.html`)
+   through the same Gmail account, read from `SMTP_USER` / `SMTP_PASSWORD`.
+   > "Invites arrive with Supabase's English default template even though our Invite template is
+   > saved. Stop depending on it: create the invite with auth.admin.generateLink (type invite),
+   > build the /auth/confirm link from its hashed_token, and send our own Albanian invite email
+   > (from InviteEmail.dc.html) over SMTP with nodemailer, reading SMTP_USER and SMTP_PASSWORD
+   > (host and port default to Gmail). Resend must keep working."
+   **Built.** Needs `SMTP_USER` and `SMTP_PASSWORD` in `.env` and in Vercel — see `docs/README.md`.
  
 ---
  

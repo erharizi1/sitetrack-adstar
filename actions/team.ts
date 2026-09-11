@@ -4,6 +4,8 @@ import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { projectIdsOf, requireActionRole } from "@/lib/auth";
+import { sendEmail } from "@/lib/email";
+import { inviteEmail } from "@/lib/invite-email";
 import { labels } from "@/lib/labels";
 import { siteOrigin } from "@/lib/site";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -44,20 +46,33 @@ async function manageable(profileId: string) {
 }
 
 /**
- * Sends Supabase's invite email and returns the new login's id. The metadata
- * only fills in the email's wording (docs/email-templates/invite.html) — it's
- * user-editable, so nothing ever checks it for access.
+ * Creates the login and emails the invite; returns the new login's id.
+ * Supabase only makes the link (generateLink sends nothing) — the email is
+ * ours (lib/invite-email.ts), sent through our own mail account (lib/email.ts).
  */
 async function sendInvite(
   email: string,
-  meta: { firstName: string; invitedBy: string; project: string; role: string },
+  details: { firstName: string; invitedBy: string; project: string; role: string },
 ): Promise<string | null> {
-  const { data, error } = await createAdminClient().auth.admin.inviteUserByEmail(
-    email,
-    { redirectTo: `${await siteOrigin()}/auth/confirm`, data: meta },
-  );
+  const admin = createAdminClient();
+  const { data, error } = await admin.auth.admin.generateLink({ type: "invite", email });
   if (error || !data.user) {
-    console.error("inviteUserByEmail:", error?.status, error?.message);
+    console.error("generateLink:", error?.status, error?.message);
+    return null;
+  }
+
+  const params = new URLSearchParams({
+    token_hash: data.properties.hashed_token,
+    type: "invite",
+  });
+  const link = `${await siteOrigin()}/auth/confirm?${params}`;
+
+  try {
+    await sendEmail({ to: email, ...inviteEmail({ ...details, link }) });
+  } catch (err) {
+    console.error("sendInvite email:", err);
+    // Don't leave behind a login nobody was told about.
+    await admin.auth.admin.deleteUser(data.user.id);
     return null;
   }
   return data.user.id;
@@ -104,10 +119,10 @@ export async function invitePerson(
 }
 
 /**
- * Supabase won't send a second invite to an address whose first one is still
- * pending, so resending replaces the pending login: delete it, invite again,
- * and move the profile over to the new id (its project links follow, via the
- * foreign key's ON UPDATE CASCADE).
+ * Resending replaces the pending login: delete it (its old link dies with it),
+ * invite again, and move the profile over to the new id (its project links
+ * follow, via the foreign key's ON UPDATE CASCADE). Starting fresh also covers
+ * a login Supabase already marked confirmed without our app ever seeing it.
  */
 export async function resendInvite(profileId: string): Promise<TeamResult> {
   const { profile, role, target, project } = await manageable(profileId);
