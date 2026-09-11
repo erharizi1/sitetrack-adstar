@@ -28,8 +28,8 @@ flowchart LR
  
     supabase[(Supabase · PostgreSQL<br/>Frankfurt)]
  
-    engineer[Site engineer · phone]
-    pm[Project manager · desktop]
+    technician[Technician · phone]
+    engineer[Engineer · desktop]
  
     vscode -->|push| feat
     dev -->|auto-deploy| preview
@@ -37,8 +37,8 @@ flowchart LR
     vscode -.->|local dev| supabase
     preview --> supabase
     prod --> supabase
+    technician --> prod
     engineer --> prod
-    pm --> prod
 ```
  
 - **GitHub** holds the code. Work flows `feature/*` → `develop` → `main`.
@@ -55,7 +55,7 @@ flowchart LR
 | Production  | `main`    | Vercel production URL| Real users on the site   |
  
 **Current state:** one Supabase project serves everything for now. Split into a separate
-production database later — only when we're about to put it in front of the real engineer.
+production database later — only when we're about to put it in front of the real technician.
  
 ---
  
@@ -106,7 +106,8 @@ untested lands on either.
  
 ## Data model
  
-Source of truth: `prisma/schema.prisma`. Six tables (pilot scope).
+Source of truth: `prisma/schema.prisma`. Eight tables: the six cost tables, plus accounts
+(`Profile`, `ProjectMember`).
  
 ```mermaid
 erDiagram
@@ -115,6 +116,8 @@ erDiagram
     Project    ||--o{ LaborRole   : "preset catalog"
     DailyLog   ||--o{ LogMaterial : contains
     DailyLog   ||--o{ LogLabor    : contains
+    Project    ||--o{ ProjectMember : "people on it"
+    Profile    ||--o{ ProjectMember : "works on"
  
     Project {
         string  id PK
@@ -129,7 +132,7 @@ erDiagram
         string  id PK
         string  projectId FK
         date    logDate
-        string  engineerName
+        string  technicianName "column: engineerName"
         decimal totalCost
         string  status "draft/submitted/approved/rejected"
     }
@@ -167,10 +170,25 @@ erDiagram
         decimal baseHourlyRate
         decimal overtimeMultiplier
     }
+    Profile {
+        uuid    id PK "= Supabase Auth user id"
+        string  email
+        string  name
+        string  role "owner/engineer/technician"
+        string  status "invited/active/deactivated"
+        datetime invitedAt "latest invite sent"
+    }
+    ProjectMember {
+        uuid    profileId FK
+        string  projectId FK
+    }
 ```
  
 Notes:
 - One **DailyLog** per project per day (`@@unique([projectId, logDate])`).
-- **Material** and **LaborRole** are per-project catalogs the engineer picks from instead of typing.
+- **Material** and **LaborRole** are per-project catalogs the technician picks from instead of typing.
 - Money is always `Decimal`, never float. Cascade deletes from `Project` down to its logs/catalogs.
-- No `users` table yet — names only for the pilot.
+- **Profile** is one per person who can log in; its id is their Supabase Auth user id. Role and
+  status live here, never in Supabase `user_metadata` (users can edit that).
+- Row-level security is on for every table: the app only talks to the database through Prisma
+  (as the tables' owner), so this just closes them to Supabase's public Data API.

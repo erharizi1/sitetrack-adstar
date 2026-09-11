@@ -32,13 +32,18 @@ session, so it already knows the above.
  
 ## Where the code lives
  
-- `app/(engineer)/` — the site engineer's screen (mobile-first), served at `/`. Its pieces are in
-  `app/(engineer)/_components/`.
-- `app/(pm)/` — the project manager's dashboard (desktop), served at `/dashboard`.
+- `app/(technician)/` — the technician's screen (mobile-first), served at `/`. Its pieces are in
+  `app/(technician)/_components/`.
+- `app/(engineer)/` — the engineer's dashboard (desktop), served at `/dashboard`.
 - `lib/cost.ts` — **all** cost calculation. One place, on purpose.
 - `lib/labels.ts` — Albanian UI strings. No hardcoded text in components.
 - `lib/prisma.ts` — the database client.
 - `actions/` — server actions that write to the database.
+- `app/login/`, `app/auth/confirm/` — logging in by email link.
+- `proxy.ts`, `lib/supabase/`, `lib/auth.ts` — login sessions, and who may see what. Every page
+  and server action checks the person's role.
+- `app/(engineer)/team/`, `actions/team.ts` — the team page: inviting people, resending an invite,
+  deactivating and reactivating. Each role manages only the role directly below it.
 - `prisma/schema.prisma` — the data model (source of truth). `prisma/seed.ts` loads the pilot
   project and its material/labor catalogs (placeholder figures until the real ones arrive).
 - `app/generated/prisma/` — generated database client. Not in git; see setup below.
@@ -68,6 +73,7 @@ not `.env.local` — the Prisma commands only read `.env`.
 DATABASE_URL="..."
 NEXT_PUBLIC_SUPABASE_URL="..."
 NEXT_PUBLIC_SUPABASE_ANON_KEY="..."
+SUPABASE_SECRET_KEY="..."   # server only — never give it a NEXT_PUBLIC_ name
 ```
 
 For `DATABASE_URL`, use the **Session pooler** connection string (Supabase → Connect → Session
@@ -78,7 +84,7 @@ Then start the app:
 
 ```bash
 npm run db:seed             # only if the database is empty — loads the pilot project
-npm run dev                 # http://localhost:3000 (engineer) and /dashboard (PM)
+npm run dev                 # http://localhost:3000 (technician) and /dashboard (engineer)
 ```
 
 The shared Supabase database already has the tables. Only if you point at a fresh database, create
@@ -122,3 +128,26 @@ github.com/settings/tokens.
 
 **Vercel** — the deployed app needs `DATABASE_URL` in the Vercel project's environment variables
 (same value as your `.env`), or it can't reach the database.
+
+**Login (Supabase Auth)** — once per Supabase project, before logging in works (locally or live):
+
+1. **Keys.** Supabase → Project Settings → API Keys. Put the secret (or `service_role`) key in `.env`
+   as `SUPABASE_SECRET_KEY`, and add it to Vercel's environment variables too — along with
+   `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` if Vercel doesn't have them yet.
+2. **Where links may point.** Authentication → URL Configuration: Site URL
+   `https://sitetrack-adstar.vercel.app`; Redirect URLs `https://sitetrack-adstar.vercel.app/**`
+   and `http://localhost:3000/**`.
+3. **Link lifetime.** Authentication → Sign In / Providers → Email → Email OTP Expiration: `86400`
+   (24 hours — what the screens and emails say).
+4. **Email templates.** Authentication → Emails:
+   - Magic link — subject `Hyr në SiteTrack`, body = `docs/email-templates/magic-link.html`.
+   - Invite user — subject `{{ .Data.invitedBy }} të ftoi në SiteTrack`, body =
+     `docs/email-templates/invite.html`.
+5. **Database.** In your own terminal (Claude Code's sandbox can't reach it):
+   `npx prisma migrate deploy` — creates the accounts tables and turns on row-level security.
+6. **The Owner's account** — nobody is above the Owner to invite them:
+   `SEED_OWNER_EMAIL=you@example.com SEED_OWNER_NAME="Emri Mbiemri" npm run db:seed`.
+   Optional test accounts: `SEED_ENGINEER_EMAIL`, `SEED_TECHNICIAN_EMAIL` (each with `_NAME`).
+
+Supabase's built-in email sender is for testing — it only sends a few emails an hour, and invites
+use it too. For real use, connect an email service under Authentication → Emails → SMTP Settings.

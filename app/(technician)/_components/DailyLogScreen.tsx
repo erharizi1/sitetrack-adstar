@@ -8,6 +8,7 @@ import {
   removeMaterial,
   submitDay,
 } from "@/actions/daily-log";
+import { signOut } from "@/actions/auth";
 import { dayTotal, formatLek, laborLineCost, materialLineCost } from "@/lib/cost";
 import { labels } from "@/lib/labels";
 import { AddSheet, type Preset } from "./AddSheet";
@@ -119,14 +120,24 @@ export function DailyLogScreen({
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col">
-      <header className="flex flex-col gap-1 px-5 pt-6">
-        <h1 className="text-base font-semibold">{projectName}</h1>
-        <div className="flex items-center gap-2 text-[12.5px] text-ink-muted">
-          <span>
-            {labels.engineer.title} · {dateLabel}
-          </span>
-          {submitted && <LogStatusBadge status={status} />}
+      <header className="flex items-start justify-between gap-3 px-5 pt-6">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-base font-semibold">{projectName}</h1>
+          <div className="flex items-center gap-2 text-[12.5px] text-ink-muted">
+            <span>
+              {labels.technician.title} · {dateLabel}
+            </span>
+            {submitted && <LogStatusBadge status={status} />}
+          </div>
         </div>
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="min-h-11 px-1 text-[13px] font-semibold text-ink-muted"
+          >
+            {labels.common.logout}
+          </button>
+        </form>
       </header>
 
       <div className="px-5 pt-4">
@@ -142,7 +153,7 @@ export function DailyLogScreen({
                   : "text-ink-muted"
               }`}
             >
-              {labels.engineer.tabs[key]}
+              {labels.technician.tabs[key]}
             </button>
           ))}
         </div>
@@ -152,7 +163,7 @@ export function DailyLogScreen({
         {tab === "materials" ? (
           <>
             <LineList
-              empty={labels.engineer.emptyMaterials}
+              empty={labels.technician.emptyMaterials}
               items={materialLines.map((line) => ({
                 id: line.id,
                 title: line.name,
@@ -168,7 +179,7 @@ export function DailyLogScreen({
             />
             {!submitted && (
               <AddButton
-                label={labels.engineer.addMaterial}
+                label={labels.technician.addMaterial}
                 onClick={() => setSheet("materials")}
               />
             )}
@@ -176,7 +187,7 @@ export function DailyLogScreen({
         ) : (
           <>
             <LineList
-              empty={labels.engineer.emptyLabor}
+              empty={labels.technician.emptyLabor}
               items={laborLines.map((line) => ({
                 id: line.id,
                 title: line.roleName,
@@ -192,7 +203,7 @@ export function DailyLogScreen({
             />
             {!submitted && (
               <AddButton
-                label={labels.engineer.addLabor}
+                label={labels.technician.addLabor}
                 onClick={() => setSheet("labor")}
               />
             )}
@@ -201,8 +212,8 @@ export function DailyLogScreen({
 
         {otherCount > 0 && (
           <p className="mt-2 rounded-xl bg-steel-soft px-3.5 py-3 text-xs font-medium text-steel">
-            {labels.engineer.tabs[otherTab]}: {otherCount} —{" "}
-            {labels.engineer.otherTabHint}
+            {labels.technician.tabs[otherTab]}: {otherCount} —{" "}
+            {labels.technician.otherTabHint}
           </p>
         )}
       </div>
@@ -211,17 +222,17 @@ export function DailyLogScreen({
       <div className="sticky bottom-0 flex flex-col gap-2.5 bg-linear-to-b from-transparent to-bg to-30% px-5 pt-4 pb-6">
         <div className="flex flex-col gap-2 rounded-2xl border border-line bg-surface px-4.5 py-3.5">
           <Row
-            label={labels.engineer.subtotalMaterials}
+            label={labels.technician.subtotalMaterials}
             value={formatLek(materialsTotal)}
           />
           <Row
-            label={labels.engineer.subtotalLabor}
+            label={labels.technician.subtotalLabor}
             value={formatLek(laborTotal)}
           />
           <div className="h-px bg-line" />
           <div className="flex items-center justify-between">
             <span className="text-[13px] font-semibold">
-              {labels.engineer.dayTotal}
+              {labels.technician.dayTotal}
             </span>
             <span className="text-[19px] font-bold text-accent">
               {formatLek(total)}
@@ -242,10 +253,10 @@ export function DailyLogScreen({
               }
               className="min-h-[56px] rounded-xl bg-accent px-4 text-[15.5px] font-semibold text-accent-ink disabled:opacity-50"
             >
-              {pending ? labels.engineer.submitting : labels.engineer.submit}
+              {pending ? labels.technician.submitting : labels.technician.submit}
             </button>
             <p className="text-center text-xs text-ink-muted">
-              {labels.engineer.submitHint}
+              {labels.technician.submitHint}
             </p>
           </>
         )}
@@ -253,7 +264,7 @@ export function DailyLogScreen({
 
       {sheet === "materials" && (
         <AddSheet
-          title={labels.engineer.chooseMaterial}
+          title={labels.technician.chooseMaterial}
           presets={materialPresets.map(
             (m): Preset => ({
               id: m.id,
@@ -266,7 +277,7 @@ export function DailyLogScreen({
           fields={[
             {
               key: "quantity",
-              label: labels.engineer.quantity,
+              label: labels.technician.quantity,
               value: quantity,
               step: 1,
               min: 1,
@@ -287,7 +298,7 @@ export function DailyLogScreen({
 
       {sheet === "labor" && (
         <AddSheet
-          title={labels.engineer.chooseLabor}
+          title={labels.technician.chooseLabor}
           presets={laborPresets.map(
             (r): Preset => ({
               id: r.id,
@@ -300,14 +311,14 @@ export function DailyLogScreen({
           fields={[
             {
               key: "workerCount",
-              label: labels.engineer.workers,
+              label: labels.technician.workers,
               value: workerCount,
               step: 1,
               min: 1,
             },
             {
               key: "hoursWorked",
-              label: labels.engineer.hours,
+              label: labels.technician.hours,
               value: hoursWorked,
               step: 1,
               min: 1,
@@ -414,7 +425,7 @@ function LineList({
             {!disabled && (
               <button
                 type="button"
-                aria-label={labels.engineer.remove}
+                aria-label={labels.technician.remove}
                 onClick={() => onRemove(item.id)}
                 className="p-1 text-ink-muted"
               >

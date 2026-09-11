@@ -9,7 +9,7 @@ const STYLES: Record<string, string> = {
 
 export function LogStatusBadge({ status }: { status: string }) {
   const text =
-    labels.engineer.status[status as keyof typeof labels.engineer.status] ??
+    labels.technician.status[status as keyof typeof labels.technician.status] ??
     status;
 
   return (

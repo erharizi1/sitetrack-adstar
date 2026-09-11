@@ -53,7 +53,7 @@ export function AddSheet({
     <div className="fixed inset-0 z-50 flex items-end justify-center sm:items-center">
       <button
         type="button"
-        aria-label={labels.engineer.cancel}
+        aria-label={labels.technician.cancel}
         onClick={onClose}
         className="absolute inset-0 bg-ink/40"
       />
@@ -154,7 +154,7 @@ export function AddSheet({
 
             <div className="flex items-center justify-between rounded-xl bg-bg px-4 py-3">
               <span className="text-[13px] font-semibold text-ink-muted">
-                {labels.engineer.lineCost}
+                {labels.technician.lineCost}
               </span>
               <span className="text-[17px] font-bold">
                 {formatLek(lineCost)}
@@ -170,14 +170,14 @@ export function AddSheet({
             disabled={!selectedId || pending}
             className="min-h-[52px] rounded-xl bg-accent px-4 text-[15px] font-semibold text-accent-ink disabled:opacity-50"
           >
-            {labels.engineer.addToLog}
+            {labels.technician.addToLog}
           </button>
           <button
             type="button"
             onClick={onClose}
             className="min-h-[44px] text-[14px] font-semibold text-ink-muted"
           >
-            {labels.engineer.cancel}
+            {labels.technician.cancel}
           </button>
         </div>
       </div>
