@@ -199,3 +199,93 @@ app until the merge deployed. This way the branch can merge at any time with not
 
 **Worth knowing:** the database column is still called `engineerName` — only the code name
 changed.
+
+---
+
+## 2026-09-10 — Accounts and login by email link (`feature/login`)
+
+**Goal:** real people with real accounts: each role lands on its own screen, and no page or
+action works without the right role.
+
+**What changed:**
+- Two new tables: `Profile` (one per person who can log in — name, role, status; its id is their
+  Supabase Auth user id) and `ProjectMember` (which projects they work on). The migration
+  (`prisma/migrations/…_accounts/`) also turns on row-level security for every table.
+- The login flow from `docs/design/final-designs/login/`: `/login` (email, "Dërgo linkun"),
+  `/login/check` (the three steps, resend, change email) and `/login/expired`. Every email link
+  lands on `/auth/confirm`, which verifies it and sends the person to their screen: technician →
+  `/`, engineer and owner → `/dashboard`.
+- `proxy.ts` (Next.js 16's name for middleware) refreshes the session on every request and sends
+  anyone not logged in to `/login`.
+- Every page checks the role (`requireRole`) and every server action refuses callers without it
+  (`requireActionRole`). The daily-log actions also gained checks they were missing: a technician
+  can only touch his own project's data, and a submitted day can no longer be edited.
+- Each day's log now records the logged-in technician's name. The technician screen has a "Dil"
+  (log out) button; the engineer area has the header from the invite design (brand, "Paneli",
+  name, role, "Dil").
+- `prisma/seed.ts` creates the Owner's account (plus optional test accounts) — nobody is above the
+  Owner to invite them. `docs/email-templates/magic-link.html` is the login email for Supabase.
+
+**How it went:**
+- Built from Supabase's current docs and the installed package types rather than memory:
+  `getClaims()` (which verifies the token) instead of `getSession()`, and email links that carry a
+  `token_hash` verified on the server — so they work on any device, and work for invites, which
+  have no "asking" device for the default PKCE flow to rely on.
+- The login page never reveals whether an email has an account: it always goes on to "check your
+  email".
+- The migration was generated without a database connection (`prisma migrate diff` between the
+  old and new schema), since the sandbox can't reach Postgres.
+- Verified locally, logged out: `/` and `/dashboard` go to `/login`; the three screens render; a
+  missing or bad link lands on "expired"; a link that lands on the site root is forwarded to
+  `/auth/confirm`. A CI-style build with no Supabase variables compiles. **Not yet verified: a real
+  login** — that needs the setup below.
+
+**Open items / worth knowing:**
+- **One-time setup before login works:** keys, redirect URLs, link lifetime (24 hours), the email
+  template, `npx prisma migrate deploy`, and seeding the Owner — steps in `docs/README.md`
+  ("One-time tooling setup").
+- The "Dil" buttons aren't in the final designs — added because switching accounts needs them.
+  Worth a look in the next design pass.
+- Supabase's built-in email sender only sends a few emails an hour: fine for testing, not for real
+  use.
+
+---
+
+## 2026-09-10 — Team page and invites (`feature/team-invite`)
+
+**Goal:** let each role add the role below it — the owner adds engineers, an engineer adds
+technicians — by email, with no passwords.
+
+**What changed:**
+- `/team` ("Ekipi" in the engineer header), from `docs/design/final-designs/invite/`: the people on
+  your projects with their status (Aktiv / Në pritje / Çaktivizuar, and "U ftua … më parë" for
+  pending invites), with the add form sliding in beside the list on desktop and as a bottom sheet
+  on phone.
+- `actions/team.ts`: invite, resend, deactivate, reactivate. The role always comes from who is
+  adding; the project must be one the adder works on; you can only manage people exactly one role
+  below you, on a project you share.
+- Invites go through Supabase's `inviteUserByEmail`, using a secret-key client that only runs on
+  the server (`lib/supabase/admin.ts`). Deactivating bans the Supabase login and marks the
+  profile; since pages and actions check the status on every request, it takes effect at once.
+- `Profile.invitedAt` (a small second migration) for "U ftua … më parë".
+- `docs/email-templates/invite.html` — the invite email from the design: who invited you, to which
+  project, in what role.
+- `lib/site.ts` — the site's own address, now shared by the login and invite emails.
+
+**How it went:**
+- Supabase's auth server source showed it won't re-send an invite to an address whose first one
+  is still pending: the call succeeds but sends nothing. So "Dërgo sërish" replaces the pending
+  login — delete it, invite again, and move the profile to the new id (its project links follow
+  through the foreign key's ON UPDATE CASCADE).
+- Verified: lint, build, a CI-style build without Supabase variables, and `/team` sending
+  logged-out visitors to `/login`. **Not yet verified: a real invite** — that needs the setup,
+  including the Invite email template.
+
+**Open items / worth knowing:**
+- On phone, each person's action (resend / deactivate / reactivate) sits on their row; the design
+  had it behind a tap on the person. Simpler for now — worth a design pass.
+- Reactivating someone who never accepted their invite marks them "Aktiv" although they've never
+  logged in; they'd need a fresh invite. Rare, fine for the pilot.
+- The owner uses this same page (to add engineers) until the owner overview exists.
+- Invites use Supabase's built-in email sender — a few per hour. Connect a real email service
+  before inviting the actual team.

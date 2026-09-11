@@ -26,6 +26,7 @@ model Project {
   dailyLogs  DailyLog[]
   materials  Material[]
   laborRoles LaborRole[]
+  members    ProjectMember[]
 }
 
 // One day's work on one project. Technician submits, engineer approves.
@@ -106,4 +107,31 @@ model LaborRole {
   createdAt          DateTime @default(now())
 
   project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+}
+
+// A person who can log in. The id is their Supabase Auth user id (auth.users.id).
+// Role and status live here — never in Supabase user_metadata, which users can edit.
+model Profile {
+  id          String    @id @db.Uuid
+  email       String    @unique
+  name        String
+  role        String // owner, engineer, technician
+  status      String    @default("invited") // invited, active, deactivated
+  invitedById String?   @db.Uuid
+  invitedAt   DateTime? // when the latest invite was sent
+  createdAt   DateTime  @default(now())
+
+  memberships ProjectMember[]
+}
+
+// Which projects a person works on — picked by whoever added them.
+model ProjectMember {
+  profileId String   @db.Uuid
+  projectId String
+  createdAt DateTime @default(now())
+
+  profile Profile @relation(fields: [profileId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@id([profileId, projectId])
 }

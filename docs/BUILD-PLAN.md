@@ -8,7 +8,8 @@ Claude Code → review the diffs → run locally → commit + push → ask Claud
 `docs/worklog.md` → open a PR into `develop` → merge → delete the branch. One feature at a time.
  
 Where we are now: Phase 0 and Phase 1 are done and merged. The designs decided so far are in
-`docs/design/final-designs/`. Next up: Phase 1.5, accounts.
+`docs/design/final-designs/`. Phase 1.5 (accounts: rename, login, team invites) is built and in
+review; after it, Phase 2.
  
 ---
  
@@ -119,6 +120,9 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
    > works without a logged-in user of the right role, and record the logged-in technician on each
    > DailyLog instead of the fixed name. Seed one Owner account. Use Supabase's built-in email for
    > now."
+   **Built.** Before it works it needs a one-time setup — keys, redirect URLs, link lifetime, the
+   email template, `npx prisma migrate deploy`, and seeding the Owner: see "One-time tooling
+   setup" in `docs/README.md`.
 5. **`feature/team-invite`** — the team page from the final design: the project's people with
    their status (Aktiv / Në pritje / Çaktivizuar), resend on pending invites, deactivate and
    reactivate, and the add form beside the list (a bottom sheet on phone). Sending it invites the
@@ -134,6 +138,8 @@ Designs: `docs/design/final-designs/login/` and `docs/design/final-designs/invit
    > Supabase invite link; the role comes from who is inviting (engineer → technician, owner →
    > engineer) and the project is picked in the form. Use InviteEmail.dc.html for the email
    > template. Only the role directly above may add, resend or deactivate."
+   **Built.** Needs the Invite email template set in Supabase (and, for real use, an email
+   service) — see "One-time tooling setup" in `docs/README.md`.
  
 ---
  

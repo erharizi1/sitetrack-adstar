@@ -8,6 +8,7 @@ import {
   removeMaterial,
   submitDay,
 } from "@/actions/daily-log";
+import { signOut } from "@/actions/auth";
 import { dayTotal, formatLek, laborLineCost, materialLineCost } from "@/lib/cost";
 import { labels } from "@/lib/labels";
 import { AddSheet, type Preset } from "./AddSheet";
@@ -119,14 +120,24 @@ export function DailyLogScreen({
 
   return (
     <main className="mx-auto flex min-h-dvh w-full max-w-2xl flex-col">
-      <header className="flex flex-col gap-1 px-5 pt-6">
-        <h1 className="text-base font-semibold">{projectName}</h1>
-        <div className="flex items-center gap-2 text-[12.5px] text-ink-muted">
-          <span>
-            {labels.technician.title} · {dateLabel}
-          </span>
-          {submitted && <LogStatusBadge status={status} />}
+      <header className="flex items-start justify-between gap-3 px-5 pt-6">
+        <div className="flex flex-col gap-1">
+          <h1 className="text-base font-semibold">{projectName}</h1>
+          <div className="flex items-center gap-2 text-[12.5px] text-ink-muted">
+            <span>
+              {labels.technician.title} · {dateLabel}
+            </span>
+            {submitted && <LogStatusBadge status={status} />}
+          </div>
         </div>
+        <form action={signOut}>
+          <button
+            type="submit"
+            className="min-h-11 px-1 text-[13px] font-semibold text-ink-muted"
+          >
+            {labels.common.logout}
+          </button>
+        </form>
       </header>
 
       <div className="px-5 pt-4">
